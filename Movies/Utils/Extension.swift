@@ -106,7 +106,7 @@ extension UICollectionViewLayout{
             count: 1)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
+        section.orthogonalScrollingBehavior = .groupPaging
         return UICollectionViewCompositionalLayout(section: section)
     }
     
@@ -130,7 +130,7 @@ extension UICollectionViewLayout{
             count: 1)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
+        section.orthogonalScrollingBehavior = .groupPaging
         return UICollectionViewCompositionalLayout(section: section)
     }
 }

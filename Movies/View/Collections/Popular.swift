@@ -65,12 +65,9 @@ extension PopularCell{
     }
     
     func additional() {
-        
         Task{
             await loadMovie()
         }
-        
-        
     }
     
     func loadMovie() async{

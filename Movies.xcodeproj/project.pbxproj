@@ -100,7 +100,7 @@
 				27DA10F8284BEAD500FDF7A9 /* View */,
 				27DA10F1284BA9C300FDF7A9 /* Service */,
 				27DA10E9284B9FD100FDF7A9 /* Model */,
-				27005B7E28477CF500E9ED18 /* Utils */,
+				27F0EAC72864F03C00221997 /* Utils */,
 				27005B7C2847793E00E9ED18 /* Files */,
 			);
 			path = Movies;
@@ -114,16 +114,6 @@
 				27005B76284776EB00E9ED18 /* Info.plist */,
 			);
 			name = Files;
-			sourceTree = "<group>";
-		};
-		27005B7E28477CF500E9ED18 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				27DA10F6284BADCD00FDF7A9 /* Utils.swift */,
-				27005B7F28477D0B00E9ED18 /* ViewFunctions.swift */,
-				27A04474284E93B6002C93DF /* Extension.swift */,
-			);
-			name = Utils;
 			sourceTree = "<group>";
 		};
 		276838D128620FA900B8F005 /* Collections */ = {
@@ -169,8 +159,8 @@
 		27DA10F8284BEAD500FDF7A9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				27A0447A2857A871002C93DF /* SearchViewController.swift */,
 				27DA10F9284BEAE100FDF7A9 /* ViewController.swift */,
+				27A0447A2857A871002C93DF /* SearchViewController.swift */,
 				276838D228620FEB00B8F005 /* MoviesViewController.swift */,
 				276838D128620FA900B8F005 /* Collections */,
 				27A0447C2859475E002C93DF /* Cells */,
@@ -194,6 +184,16 @@
 				276838E12863DBAF00B8F005 /* MovieListState.swift */,
 			);
 			path = Bindings;
+			sourceTree = "<group>";
+		};
+		27F0EAC72864F03C00221997 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				27DA10F6284BADCD00FDF7A9 /* Utils.swift */,
+				27005B7F28477D0B00E9ED18 /* ViewFunctions.swift */,
+				27A04474284E93B6002C93DF /* Extension.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
