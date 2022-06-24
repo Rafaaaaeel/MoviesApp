@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         let mainNavigationController = UINavigationController(rootViewController: moviesViewController)
         
-        searchNavigationController.title = "Search"
+        searchNavigationController.title = "Looking for something different? "
         mainNavigationController.title = "Movies"
         
         tabBarList.viewControllers = [mainNavigationController,searchNavigationController]
