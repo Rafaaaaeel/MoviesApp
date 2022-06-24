@@ -22,7 +22,7 @@ class ViewController: UIViewController{
         return title
     }()
     
-    lazy var imageView: UIImageView = {
+    fileprivate lazy var imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 9.0
@@ -65,6 +65,8 @@ extension ViewController: ViewFunctions{
             self.titleLabel.text = title
 
         }
+        
+        view.backgroundColor = .systemBackground
     }
     
     func loadMovie() async{
