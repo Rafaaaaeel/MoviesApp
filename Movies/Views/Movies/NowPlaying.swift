@@ -59,7 +59,7 @@ extension NowPlayingCell{
         collectionView.frame = bounds
         
         NSLayoutConstraint.activate([
-            nowPlayingTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor),
+            nowPlayingTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -12),
             nowPlayingTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
         ])
     }

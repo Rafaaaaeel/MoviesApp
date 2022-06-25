@@ -38,7 +38,7 @@ class UpcomingCollectionViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             movieNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 0),
-            
+            movieNameLabel.widthAnchor .constraint(equalToConstant: 300)
         ])
         
     }

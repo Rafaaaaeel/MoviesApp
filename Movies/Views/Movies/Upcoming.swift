@@ -57,7 +57,7 @@ extension UpcomingCell{
         collectionView.frame = bounds
         
         NSLayoutConstraint.activate([
-            upcoomingTitleLabel.bottomAnchor.constraint(equalToSystemSpacingBelow: collectionView.topAnchor, multiplier: 0),
+            upcoomingTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -12),
             upcoomingTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
         ])
     }

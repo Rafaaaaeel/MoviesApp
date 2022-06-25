@@ -80,9 +80,9 @@ extension SearchViewController{
     }
     
     func loadData() async{
-        searchMovieTextField.resignFirstResponder()
+//        searchMovieTextField.resignFirstResponder()
         
-        guard let text = searchMovieTextField.text else {return}
+        guard let text = searchMovieTextField.text, !text.isEmpty else {return}
         
         do{
             let movies = try await movieservice.searchMovie(query: text)
@@ -96,10 +96,11 @@ extension SearchViewController{
 }
 
 
+
 extension SearchViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let count = movies?.count else { return 0}
+        guard let count = movies?.count else { return 0 }
         return count
     }
     
@@ -111,14 +112,17 @@ extension SearchViewController {
         cell.configure(with: movies[indexPath.row])
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         guard let movie = self.movies else { return }
         
-        present(ViewController(), animated: true)
+        let vc = ViewController(movieID: movie[indexPath.row].id)
+//        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
         
-        print(movie[indexPath.row].id)
+        print()
     }
     
 
@@ -131,4 +135,12 @@ extension SearchViewController {
         }
         return true
     }
+
+    
+//    Searching in real time, turned off for now, turn on later 
+//    func textFieldDidChangeSelection(_ textField: UITextField) {
+//        Task{
+//            await loadData()
+//        }
+//    }
 }
