@@ -8,7 +8,7 @@
 import Foundation
 
 class MovieStore: MovieService {
-
+    
     static let shared = MovieStore()
     private init() {}
     
@@ -34,6 +34,16 @@ class MovieStore: MovieService {
         
         return try await self.loadURLAndDecode(url: url, params: [
             "append_to_response":"videos,credits"])
+    }
+    
+    func fetchSimilarMovies(id: Int) async throws -> [Movie] {
+        guard let url = URL(string: "\(baseAPIURL)/movie/\(id)/similar?") else {
+            throw MovieError.invalidEndpoint
+        }
+        
+        let movieResponse: MovieResponse = try await self.loadURLAndDecode(url: url)
+        
+        return movieResponse.results
     }
 
     func searchMovie(query: String) async throws -> [Movie] {

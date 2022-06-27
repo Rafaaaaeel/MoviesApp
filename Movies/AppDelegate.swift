@@ -7,7 +7,7 @@
 
 import UIKit
 
-@main
+    @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let tabBarList = UITabBarController()
@@ -25,10 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         searchViewController.setTabBarImage(imageName: "magnifyingglass", title: "Search")
         moviesViewController.setTabBarImage(imageName: "ticket", title: "Movies")
         
-        let searchNavigationController = UINavigationController(rootViewController: searchViewController)
+//        let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         let mainNavigationController = UINavigationController(rootViewController: moviesViewController)
-        
-        searchNavigationController.title = "Looking for something different? "
+        let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         mainNavigationController.title = "Movies"
         
         tabBarList.viewControllers = [mainNavigationController,searchNavigationController]

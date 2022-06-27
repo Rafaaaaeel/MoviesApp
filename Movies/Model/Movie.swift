@@ -21,6 +21,7 @@ struct Movie: Decodable, Identifiable{
     let voteAverage: Double
     let voteCount: Int
     let runTime: Int?
+    let genreIds: [Int]?
     
     var backdropURL: String {
         return "https://image.tmdb.org/t/p/original/\(backdropPath ?? "nothing")"

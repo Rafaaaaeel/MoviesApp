@@ -119,7 +119,7 @@ extension SearchViewController {
         guard let movie = self.movies else { return }
         
         let vc = ViewController(movieID: movie[indexPath.row].id)
-//        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .popover
         present(vc, animated: true)
         
         print()
@@ -129,18 +129,18 @@ extension SearchViewController {
 }
 
 extension SearchViewController {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        Task{
-            await loadData()
-        }
-        return true
-    }
-
-    
-//    Searching in real time, turned off for now, turn on later 
-//    func textFieldDidChangeSelection(_ textField: UITextField) {
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //        Task{
 //            await loadData()
 //        }
+//        return true
 //    }
+
+    
+//    Searching in real time, turned off for now, turn on later 
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        Task{
+            await loadData()
+        }
+    }
 }
