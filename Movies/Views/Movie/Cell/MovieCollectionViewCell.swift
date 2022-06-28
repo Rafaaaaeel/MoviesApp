@@ -17,8 +17,9 @@ class MovieCollectionViewCell: UICollectionViewCell{
         image.layer.cornerRadius = 9.0
         image.layer.masksToBounds = true
         return image
-   }()
+    }()
     
+   
     
     override init(frame: CGRect) {
         super.init(frame: frame)

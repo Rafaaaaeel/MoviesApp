@@ -27,11 +27,27 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
     }
     
 //  MARK: - UI Components
+//
+    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 600)
+
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView(frame: .zero)
+        view.frame = self.view.bounds
+        view.contentSize = contentViewSize
+        return view
+    }()
+
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.frame.size = contentViewSize
+        return view
+    }()
     
     lazy var posterImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.masksToBounds = true
+        image.contentMode = .scaleAspectFit
         return image
     }()
     
@@ -90,11 +106,12 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.backgroundColor = .systemBackground
+        cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
         cv.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
         cv.showsVerticalScrollIndicator = false
+        cv.frame = self.view.bounds
         return cv
     }()
     
@@ -117,22 +134,30 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
 //  MARK: - View Functions
 extension MovieViewController: ViewFunctions{
     func setupHiearchy() {
+  
+
+ 
         
-        view.addSubview(collectionView)
-        view.addSubview(posterImage)
-        view.addSubview(overviewLabel)
-        view.addSubview(voteStarImage)
-        view.addSubview(voteAvaregeLabel)
-        view.addSubview(voteAvaregeTotalLabel)
-        view.addSubview(similarMoviesLabel)
+        
+
+        view.addSubview(scrollView)
+        scrollView.addSubview(containerView)
+        containerView.addSubview(collectionView)
+        containerView.addSubview(posterImage)
+        containerView.addSubview(overviewLabel)
+        containerView.addSubview(voteStarImage)
+        containerView.addSubview(voteAvaregeLabel)
+        containerView.addSubview(voteAvaregeTotalLabel)
+        containerView.addSubview(similarMoviesLabel)
         
     }
     
     func setupContraints() {
+
         NSLayoutConstraint.activate([
-            posterImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            posterImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            posterImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            posterImage.topAnchor.constraint(equalTo: (containerView).safeAreaLayoutGuide.topAnchor),
+            posterImage.leadingAnchor.constraint(equalTo: (containerView).leadingAnchor),
+            posterImage.trailingAnchor.constraint(equalTo: (containerView).trailingAnchor),
             posterImage.heightAnchor.constraint(equalToConstant: 230),
         ])
 
@@ -141,34 +166,34 @@ extension MovieViewController: ViewFunctions{
             overviewLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: posterImage.leadingAnchor, multiplier: 2),
             overviewLabel.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -16),
         ])
-        
+
         NSLayoutConstraint.activate([
             voteStarImage.topAnchor.constraint(equalToSystemSpacingBelow: overviewLabel.bottomAnchor, multiplier: 2),
             voteStarImage.leadingAnchor.constraint(equalTo: overviewLabel.leadingAnchor),
         ])
-        
+
         NSLayoutConstraint.activate([
             voteAvaregeLabel.leadingAnchor.constraint(equalTo: voteStarImage.trailingAnchor, constant: 12),
             voteAvaregeLabel.centerYAnchor.constraint(equalTo: voteStarImage.centerYAnchor),
         ])
-        
+
         NSLayoutConstraint.activate([
             voteAvaregeTotalLabel.leadingAnchor.constraint(equalTo: voteAvaregeLabel.trailingAnchor, constant: 1),
             voteAvaregeTotalLabel.centerYAnchor.constraint(equalTo: voteAvaregeLabel.centerYAnchor),
         ])
-        
-        
+
+
         NSLayoutConstraint.activate([
             similarMoviesLabel.topAnchor.constraint(equalToSystemSpacingBelow: voteAvaregeTotalLabel.bottomAnchor, multiplier: 2),
             similarMoviesLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: posterImage.leadingAnchor, multiplier: 2),
         ])
-        
-        
+
+
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalToSystemSpacingBelow: similarMoviesLabel.bottomAnchor, multiplier: 2),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-    @main
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let tabBarList = UITabBarController()
@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBarList.viewControllers = [mainNavigationController,searchNavigationController]
         
         window?.rootViewController = tabBarList
+//        window?.rootViewController = MovieViewController(movieID: 11)
         
         return true
     }
