@@ -79,6 +79,11 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
         return label
     }()
     
+    lazy var closeButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeAllPagesAndReturn))
+        return button
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 16
@@ -104,6 +109,7 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.isNavigationBarHidden = false;
+        self.navigationItem.rightBarButtonItem = closeButton
     }
     
 }
@@ -222,6 +228,13 @@ extension MovieViewController{
     }
 }
 
+//  MARK: - Objc Functions
+
+extension MovieViewController{
+    @objc func closeAllPagesAndReturn(){
+        navigationController?.popToRootViewController(animated: true)
+    }
+}
 
 //  MARK: Network api call
 

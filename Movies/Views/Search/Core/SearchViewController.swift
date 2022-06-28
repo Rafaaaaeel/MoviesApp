@@ -94,6 +94,7 @@ extension SearchViewController {
         navigationItem.hidesBackButton = true
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = .label
+        
     }
     
 }
