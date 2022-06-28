@@ -86,6 +86,7 @@ extension PopularCell{
         guard let movies = self.movies else { return cell}
         
         cell.configure(with: movies[indexPath.row])
+        
         return cell
     }
     

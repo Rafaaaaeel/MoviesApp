@@ -30,7 +30,6 @@ class TopRatedCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
         cv.delegate = self
         cv.dataSource = self
         cv.isScrollEnabled = false
-  
         cv.showsHorizontalScrollIndicator = false
         cv.register(TopRatedCollectionViewCell.self, forCellWithReuseIdentifier: TopRatedCollectionViewCell.identifier)
         return cv

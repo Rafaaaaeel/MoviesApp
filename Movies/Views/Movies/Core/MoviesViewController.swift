@@ -9,7 +9,6 @@ import UIKit
 
 class MoviesViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate      {
 
-    
 //  MARK: - UI Components
     
     private lazy var collectionView: UICollectionView = {
@@ -47,6 +46,7 @@ extension MoviesViewController{
     func setupContraints() {
         collectionView.frame = view.bounds
     }
+    
 }
 
 
@@ -96,6 +96,4 @@ extension MoviesViewController{
         return UIEdgeInsets(top: 60, left: 0, bottom: 20, right: 0)
     }
 }
-
-
 

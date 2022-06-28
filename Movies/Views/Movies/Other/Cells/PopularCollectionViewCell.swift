@@ -37,8 +37,6 @@ class PopularCollectionViewCell: UICollectionViewCell, ViewFunctions {
         super.layoutSubviews()
         imageView.frame = contentView.bounds
     }
-    
-
 }
 
 //  MARK: View Functions

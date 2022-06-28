@@ -11,6 +11,8 @@ class MovieCollectionViewCell: UICollectionViewCell{
     
     static let identifier = "MovieCollectionViewCell"
     
+//  MARK: UI Components
+    
     lazy var imageResult: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -19,8 +21,7 @@ class MovieCollectionViewCell: UICollectionViewCell{
         return image
     }()
     
-   
-    
+//  MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -37,6 +38,8 @@ class MovieCollectionViewCell: UICollectionViewCell{
         imageResult.frame = contentView.bounds
     }
 }
+
+//  MARK: - View Model
 
 extension MovieCollectionViewCell{
     func configure(with model: Movie){
