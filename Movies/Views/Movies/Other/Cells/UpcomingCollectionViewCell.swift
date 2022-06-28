@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class UpcomingCollectionViewCell: UICollectionViewCell, ViewFunctions {
     
@@ -35,6 +36,7 @@ class UpcomingCollectionViewCell: UICollectionViewCell, ViewFunctions {
         super.init(frame: frame)
     
         setup()
+        self.isSkeletonable = true
     }
     
     required init?(coder: NSCoder) {

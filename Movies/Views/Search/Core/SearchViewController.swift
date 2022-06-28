@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import SkeletonView
 
-class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate{
+
+class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, SkeletonCollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate{
+
+    
 
     var movies: [Movie]?
     private var movieservice = MovieStore.shared
@@ -23,6 +27,7 @@ class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDel
         textField.clipsToBounds = true
         textField.layer.borderWidth = 1
         textField.leftViewMode = .always
+    
         textField.tintColor = .white
         let image = UIImage(systemName: "magnifyingglass")
         let imageView = UIImageView(image: image)
@@ -52,6 +57,13 @@ class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDel
         super.viewDidLoad()
 
         setup()
+        
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        SkeletonAppearance.default.skeletonCornerRadius = 10
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,6 +119,9 @@ extension SearchViewController{
         return movies.count
     }
     
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return SearchMoviesCollectionViewCell.identifier
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchMoviesCollectionViewCell.identifier, for: indexPath) as! SearchMoviesCollectionViewCell
@@ -142,9 +157,13 @@ extension SearchViewController{
 extension SearchViewController {
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
+        collectionView.isSkeletonable = true
+        collectionView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .darkGray), animation: nil, transition: .crossDissolve(0.25))
         Task{
             await loadData()
+    
         }
+        
     }
     
     
@@ -154,6 +173,10 @@ extension SearchViewController {
         do{
             let movies = try await movieservice.searchMovie(query: text)
             self.movies = movies
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.collectionView.stopSkeletonAnimation()
+                self.view.hideSkeleton(reloadDataAfter: false, transition: .crossDissolve(0.25))
+            }
             self.collectionView.reloadData()
         }catch{
             print("Error")

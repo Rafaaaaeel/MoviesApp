@@ -15,7 +15,7 @@ class TopRatedCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
     
 //  MARK: - UI Components
     
-    private lazy var nowPlayingTitleLabel: UILabel = {
+    private lazy var topRatedTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Top Rated"
@@ -54,15 +54,15 @@ class TopRatedCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
 extension TopRatedCell{
     func setupHiearchy() {
         addSubview(collectionView)
-        addSubview(nowPlayingTitleLabel)
+        addSubview(topRatedTitleLabel)
     }
     
     func setupContraints() {
         collectionView.frame = bounds
         
         NSLayoutConstraint.activate([
-            nowPlayingTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -12),
-            nowPlayingTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
+            topRatedTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -12),
+            topRatedTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
         ])
     }
     

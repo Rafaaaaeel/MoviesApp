@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class PopularCollectionViewCell: UICollectionViewCell, ViewFunctions {
 
@@ -27,6 +28,7 @@ class PopularCollectionViewCell: UICollectionViewCell, ViewFunctions {
         super.init(frame: frame)
 
         setup()
+        self.isSkeletonable = true
     }
     
     required init?(coder: NSCoder) {

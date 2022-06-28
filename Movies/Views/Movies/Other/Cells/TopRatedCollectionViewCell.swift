@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class TopRatedCollectionViewCell: UICollectionViewCell, ViewFunctions {
     
@@ -34,6 +35,7 @@ class TopRatedCollectionViewCell: UICollectionViewCell, ViewFunctions {
     override init(frame: CGRect){
         super.init(frame: frame)
         setup()
+        self.isSkeletonable = true
     }
     
     required init?(coder: NSCoder) {

@@ -15,7 +15,7 @@ class PopularCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate
 
 //  MARK: - UI Components
     
-    private lazy var nowPlayingTitleLabel: UILabel = {
+    private lazy var popularTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Popular"
@@ -54,15 +54,15 @@ class PopularCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate
 extension PopularCell{
     func setupHiearchy() {
         addSubview(collectionView)
-        addSubview(nowPlayingTitleLabel)
+        addSubview(popularTitleLabel)
     }
     
     func setupContraints() {
         collectionView.frame = bounds
         
         NSLayoutConstraint.activate([
-            nowPlayingTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -12),
-            nowPlayingTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
+            popularTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -12),
+            popularTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
         ])
     }
     

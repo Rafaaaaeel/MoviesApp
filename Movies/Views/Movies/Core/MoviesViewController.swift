@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class MoviesViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate      {
 
 //  MARK: - UI Components
@@ -86,7 +87,7 @@ extension MoviesViewController{
             return CGSize(width: view.frame.width , height: 190)
         case 2:
             return CGSize(width: view.frame.width , height: 190)
-            
+
         default:
             return CGSize(width: view.frame.width , height: 320)
         }

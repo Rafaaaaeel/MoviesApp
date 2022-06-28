@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import SkeletonView
 
 class NowPlayingCollectionViewCell: UICollectionViewCell, ViewFunctions {
 
@@ -27,6 +27,7 @@ class NowPlayingCollectionViewCell: UICollectionViewCell, ViewFunctions {
         super.init(frame: frame)
         
         setup()
+        self.isSkeletonable = true
     }
     
     required init?(coder: NSCoder) {

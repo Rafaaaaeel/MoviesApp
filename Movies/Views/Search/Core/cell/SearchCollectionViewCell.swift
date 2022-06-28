@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class SearchMoviesCollectionViewCell: UICollectionViewCell{
     
@@ -27,6 +28,7 @@ class SearchMoviesCollectionViewCell: UICollectionViewCell{
         
         contentView.addSubview(imageResult)
         contentView.clipsToBounds = true
+        self.isSkeletonable = true
     }
     
     required init?(coder: NSCoder) {
@@ -35,6 +37,7 @@ class SearchMoviesCollectionViewCell: UICollectionViewCell{
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         imageResult.frame = contentView.bounds
     }
 }

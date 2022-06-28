@@ -5,7 +5,7 @@
 //  Created by Rafael Oliveira on 13/06/22.
 //
 
-import UIKit
+import UIKit 
 
 class UpcomingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
