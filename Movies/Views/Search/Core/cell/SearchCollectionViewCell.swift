@@ -16,11 +16,11 @@ class SearchMoviesCollectionViewCell: UICollectionViewCell{
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 9.0
-//        image.contentMode =
         image.layer.masksToBounds = true
         return image
    }()
     
+//  MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,6 +38,8 @@ class SearchMoviesCollectionViewCell: UICollectionViewCell{
         imageResult.frame = contentView.bounds
     }
 }
+
+//  MARK: - View Model
 
 extension SearchMoviesCollectionViewCell{
     func configure(with model: Movie){

@@ -9,15 +9,12 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell{
     
-    
     static let identifier = "MovieCollectionViewCell"
     
     lazy var imageResult: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 9.0
-        
-//        image.contentMode =
         image.layer.masksToBounds = true
         return image
    }()

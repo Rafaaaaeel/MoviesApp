@@ -10,10 +10,10 @@ import UIKit
 class NowPlayingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     static let identifier = "NowPlayingCell"
-
     var movies: [Movie]?
-    
     private let movieService: MovieService = MovieStore.shared
+    
+//  MARK: - UI Components
     
     private lazy var nowPlayingTitleLabel: UILabel = {
         let label = UILabel()
@@ -30,12 +30,12 @@ class NowPlayingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDeleg
         cv.delegate = self
         cv.dataSource = self
         cv.isScrollEnabled = false
-  
         cv.showsHorizontalScrollIndicator = false
         cv.register(NowPlayingCollectionViewCell.self, forCellWithReuseIdentifier: NowPlayingCollectionViewCell.identifier)
         return cv
     }()
     
+//  MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,9 +45,9 @@ class NowPlayingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDeleg
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
- 
 }
+
+//  MARK: - View Functions
 
 extension NowPlayingCell{
     func setupHiearchy() {
@@ -69,20 +69,10 @@ extension NowPlayingCell{
         Task{
             await loadMovie()
         }
-        
-        
-    }
-    
-    func loadMovie() async{
-        do{
-            let movies = try await self.movieService.fetchMovies(from: .nowPlaying)
-            self.movies = movies
-            collectionView.reloadData()
-        } catch{
-            
-        }
     }
 }
+
+//  MARK: - Collection Delegate & Data Source
 
 extension NowPlayingCell{
     
@@ -106,4 +96,18 @@ extension NowPlayingCell{
         return UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
     }
     
+}
+
+//  MARK: Network api call
+
+extension NowPlayingCell{
+    func loadMovie() async{
+        do{
+            let movies = try await self.movieService.fetchMovies(from: .nowPlaying)
+            self.movies = movies
+            collectionView.reloadData()
+        } catch{
+            
+        }
+    }
 }

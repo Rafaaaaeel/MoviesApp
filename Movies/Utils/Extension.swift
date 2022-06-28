@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+//  MARK: - UIImageView
 extension UIImageView{
     func loadImagefromUrl(url: String){
         guard let url = URL(string: url) else { return }
@@ -24,6 +25,7 @@ extension UIImageView{
     }
 }
 
+//  MARK: - UIViewController
 extension UIViewController{
     func setStatusBar(){
         let statusBarSize = UIApplication.shared.statusBarFrame.size
@@ -42,6 +44,7 @@ extension UIViewController{
     }
 }
 
+//  MARK: - UIView
 extension UIView {
     
     func setCellShadow() {
@@ -85,7 +88,7 @@ extension UIView {
     }
 }
 
-
+//  MARK: - UICollectionViewLayout
 extension UICollectionViewLayout{
     func createLayoutLandscape() -> UICollectionViewCompositionalLayout{
         // Item

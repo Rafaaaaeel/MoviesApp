@@ -8,11 +8,11 @@
 import UIKit
 
 
-class NowPlayingCollectionViewCell: UICollectionViewCell {
-    
-    
-    
+class NowPlayingCollectionViewCell: UICollectionViewCell, ViewFunctions {
+
     static let identifier = "NowPlayingCollectionViewCell"
+
+//  MARK: - UI Components
     
     private let imageView: UIImageView = {
         let image = UIImageView()
@@ -22,12 +22,11 @@ class NowPlayingCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
+//  MARK: - Init
     override init(frame: CGRect){
         super.init(frame: frame)
-
-        contentView.addSubview(imageView)
-        contentView.clipsToBounds = true
-       
+        
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -39,6 +38,27 @@ class NowPlayingCollectionViewCell: UICollectionViewCell {
         imageView.frame = contentView.bounds
     }
     
+}
+
+//  MARK: - View Functions
+
+extension NowPlayingCollectionViewCell{
+    func setupHiearchy() {
+        contentView.addSubview(imageView)
+    }
+    
+    func setupContraints() {
+        //
+    }
+    
+    func additional() {
+        contentView.clipsToBounds = true
+    }
+}
+
+//  MARK: - View Model
+
+extension NowPlayingCollectionViewCell{
     func configure(with model: Movie){
         self.imageView.loadImagefromUrl(url: model.posterURL)
     }

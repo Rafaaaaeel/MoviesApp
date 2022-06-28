@@ -10,11 +10,11 @@ import UIKit
 class PopularCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     static let identifier = "PopularCell"
-    
     var movies: [Movie]?
-    
     private let movieService: MovieService = MovieStore.shared
 
+//  MARK: - UI Components
+    
     private lazy var nowPlayingTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +36,7 @@ class PopularCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate
         return cv
     }()
     
+//  MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,9 +46,10 @@ class PopularCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
- 
 }
+
+
+//  MARK: - View Functions
 
 extension PopularCell{
     func setupHiearchy() {
@@ -69,17 +71,9 @@ extension PopularCell{
             await loadMovie()
         }
     }
-    
-    func loadMovie() async{
-        do{
-            let movies = try await self.movieService.fetchMovies(from: .popular)
-            self.movies = movies
-            collectionView.reloadData()
-        } catch{
-            
-        }
-    }
 }
+
+//  MARK: - Collection Delegate & Data Source
 
 extension PopularCell{
     
@@ -103,4 +97,18 @@ extension PopularCell{
         return UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
     }
     
+}
+
+//  MARK: Network api call
+
+extension PopularCell{
+    func loadMovie() async{
+        do{
+            let movies = try await self.movieService.fetchMovies(from: .popular)
+            self.movies = movies
+            collectionView.reloadData()
+        } catch{
+            
+        }
+    }
 }

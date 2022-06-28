@@ -9,16 +9,12 @@ import Foundation
 import UIKit
 
 
-class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
+class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
     
     var movie: Movie?
     var similarMovies: [Movie]?
-    
     private let movieID: Int
     private var movieService = MovieStore.shared
-    
-    
-    
     
 //  MARK: - Init
     init(movieID: Int){
@@ -29,7 +25,6 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
 //  MARK: - UI Components
     
@@ -76,7 +71,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         return label
     }()
     
-    private lazy var similarMoviesLabel: UILabel = {
+    lazy var similarMoviesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Similar Titles"
@@ -114,7 +109,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
 }
 
 //  MARK: - View Functions
-extension ViewController: ViewFunctions{
+extension MovieViewController: ViewFunctions{
     func setupHiearchy() {
         
         view.addSubview(collectionView)
@@ -128,8 +123,6 @@ extension ViewController: ViewFunctions{
     }
     
     func setupContraints() {
-        
-        
         NSLayoutConstraint.activate([
             posterImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             posterImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -193,12 +186,12 @@ extension ViewController: ViewFunctions{
     }
 }
 
-extension ViewController{
+//  MARK: - Collection Delegate & Data Source
+extension MovieViewController{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let movies = similarMovies else {return 0}
         return movies.count
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as! MovieCollectionViewCell
@@ -215,11 +208,24 @@ extension ViewController{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 8, bottom: 10, right: 8)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let movie = self.similarMovies else { return }
+        
+        print(movie[indexPath.row].genreIds!)
+        
+        let vc = MovieViewController(movieID: movie[indexPath.row].id)
+        self.navigationController?.pushViewController(vc, animated: true )
+    
+    }
 }
 
 
-//  MARK: Netowork call
-extension ViewController{
+//  MARK: Network api call
+
+extension MovieViewController{
     func loadMovie() async{
         do{
             let movie = try await self.movieService.fetchMovie(id: movieID)

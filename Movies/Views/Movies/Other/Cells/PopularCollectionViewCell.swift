@@ -7,8 +7,11 @@
 
 import UIKit
 
-class PopularCollectionViewCell: UICollectionViewCell {
+class PopularCollectionViewCell: UICollectionViewCell, ViewFunctions {
+
     static let identifier = "PopularCollectionViewCell"
+    
+//  MARK: - UI Components
     
     private let imageView: UIImageView = {
         let image = UIImageView()
@@ -18,13 +21,12 @@ class PopularCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
+//  MARK: - Init
+    
     override init(frame: CGRect){
         super.init(frame: frame)
 
-        contentView.addSubview(imageView)
-    
-        contentView.clipsToBounds = true
-       
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -36,6 +38,28 @@ class PopularCollectionViewCell: UICollectionViewCell {
         imageView.frame = contentView.bounds
     }
     
+
+}
+
+//  MARK: View Functions
+
+extension PopularCollectionViewCell{
+    func setupHiearchy() {
+        contentView.addSubview(imageView)
+    }
+    
+    func setupContraints() {
+        //
+    }
+    
+    func additional() {
+        contentView.clipsToBounds = true
+    }
+}
+
+//  MARK: - View Model
+
+extension PopularCollectionViewCell{
     func configure(with model: Movie){
         self.imageView.loadImagefromUrl(url: model.posterURL)
     }

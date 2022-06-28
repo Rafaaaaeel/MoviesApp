@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         searchViewController.setTabBarImage(imageName: "magnifyingglass", title: "Search")
         moviesViewController.setTabBarImage(imageName: "ticket", title: "Movies")
         
-//        let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         let mainNavigationController = UINavigationController(rootViewController: moviesViewController)
         let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         mainNavigationController.title = "Movies"
@@ -36,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
 
 }
 

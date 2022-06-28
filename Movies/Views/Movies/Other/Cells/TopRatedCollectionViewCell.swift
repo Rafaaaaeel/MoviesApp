@@ -7,9 +7,11 @@
 
 import UIKit
 
-class TopRatedCollectionViewCell: UICollectionViewCell {
+class TopRatedCollectionViewCell: UICollectionViewCell, ViewFunctions {
     
     static let identifier = "TopRatedCollectionViewCell"
+    
+//  MARK: - UI Components
     
     private let imageView: UIImageView = {
         let image = UIImageView()
@@ -27,21 +29,11 @@ class TopRatedCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+//  MARK: Init
     
     override init(frame: CGRect){
         super.init(frame: frame)
-
-        contentView.addSubview(imageView)
-        addSubview(movieNameLabel)
-        
-       
-        contentView.clipsToBounds = true
-        
-        NSLayoutConstraint.activate([
-            movieNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 0),
-            
-        ])
-        
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -52,8 +44,32 @@ class TopRatedCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         imageView.frame = contentView.bounds
     }
+}
+
+//  MARK: - View Functions
+
+extension TopRatedCollectionViewCell{
+    func setupHiearchy() {
+        contentView.addSubview(imageView)
+        addSubview(movieNameLabel)
+        
+    }
     
+    func setupContraints() {
+        NSLayoutConstraint.activate([
+            movieNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 0),
+        ])
+    }
     
+    func additional() {
+        contentView.clipsToBounds = true
+    }
+    
+}
+
+//  MARK: - View Model
+
+extension TopRatedCollectionViewCell{
     func configure(with model: Movie){
         self.movieNameLabel.text = model.title
         self.imageView.loadImagefromUrl(url: model.backdropURL)

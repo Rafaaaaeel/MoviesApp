@@ -9,17 +9,17 @@ import UIKit
 
 class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate{
 
-
     var movies: [Movie]?
-    
     private var movieservice = MovieStore.shared
+    
+    
+//  MARK: - UI Components
     
     private lazy var searchMovieTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.delegate = self
         textField.placeholder = "Search"
-//        textField.layer.cornerRadius = 5
         textField.clipsToBounds = true
         textField.layer.borderWidth = 1
         textField.leftViewMode = .always
@@ -32,14 +32,6 @@ class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDel
         return textField
     }()
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Movies & TV"
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        return label
-    }()
-    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 16
@@ -49,18 +41,12 @@ class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDel
         cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
-//        cv.frame = view.bounds
         cv.register(SearchMoviesCollectionViewCell.self, forCellWithReuseIdentifier: SearchMoviesCollectionViewCell.identifier)
         cv.showsVerticalScrollIndicator = false
         return cv
     }()
     
-
-    private var backgroundView: UIView = {
-        let view = UIView()
-    
-        return view
-    }()
+//  MARK: - Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +62,7 @@ class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDel
     
 }
 
+//  MARK: - View Functions
 
 extension SearchViewController {
     func setupHiearchy() {
@@ -109,20 +96,10 @@ extension SearchViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
-    func loadData() async{
-//        searchMovieTextField.resignFirstResponder()
-        
-        guard let text = searchMovieTextField.text, !text.isEmpty else {return}
-        
-        do{
-            let movies = try await movieservice.searchMovie(query: text)
-            self.movies = movies
-            self.collectionView.reloadData()
-        }catch{
-            
-        }
-    }
 }
+
+
+//  MARK: - Collection Delegate & Data Source
 
 extension SearchViewController{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -154,26 +131,32 @@ extension SearchViewController{
         
         print(movie[indexPath.row].genreIds!)
         
-        let vc = ViewController(movieID: movie[indexPath.row].id)
+        let vc = MovieViewController(movieID: movie[indexPath.row].id)
         self.navigationController?.pushViewController(vc, animated: true )
     
     }
 }
 
+//  MARK: Network api call
 
 extension SearchViewController {
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        Task{
-//            await loadData()
-//        }
-//        return true
-//    }
 
-    
-//    Searching in real time, turned off for now, turn on later
     func textFieldDidChangeSelection(_ textField: UITextField) {
         Task{
             await loadData()
+        }
+    }
+    
+    
+    func loadData() async{
+        guard let text = searchMovieTextField.text, !text.isEmpty else {return}
+        
+        do{
+            let movies = try await movieservice.searchMovie(query: text)
+            self.movies = movies
+            self.collectionView.reloadData()
+        }catch{
+            print("Error")
         }
     }
 }

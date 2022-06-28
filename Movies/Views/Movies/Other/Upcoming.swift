@@ -10,10 +10,10 @@ import UIKit
 class UpcomingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     static let identifier = "UpcomingCell"
-    
     var movies: [Movie]?
-    
     private let movieService: MovieService = MovieStore.shared
+    
+//  MARK: - UI Components
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
@@ -27,13 +27,15 @@ class UpcomingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
         return cv
     }()
     
-    private lazy var upcoomingTitleLabel: UILabel = {
+    private lazy var upcomingTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Upcoming"
         label.font = UIFont.boldSystemFont(ofSize: 23)
         return label
     }()
+    
+//  MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,18 +49,20 @@ class UpcomingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
  
 }
 
+//  MARK: - View Functions
+
 extension UpcomingCell{
     func setupHiearchy() {
         addSubview(collectionView)
-        addSubview(upcoomingTitleLabel)
+        addSubview(upcomingTitleLabel)
     }
     
     func setupContraints() {
         collectionView.frame = bounds
         
         NSLayoutConstraint.activate([
-            upcoomingTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -12),
-            upcoomingTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
+            upcomingTitleLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -12),
+            upcomingTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
         ])
     }
 
@@ -67,17 +71,9 @@ extension UpcomingCell{
             await loadMovie()
         }
     }
-    
-    func loadMovie() async{
-        do{
-            let movies = try await self.movieService.fetchMovies(from: .upcoming)
-            self.movies = movies
-            collectionView.reloadData()
-        } catch{
-            
-        }
-    }
 }
+
+//  MARK: - Collection Delegate & Data Source
 
 extension UpcomingCell{
     
@@ -102,4 +98,17 @@ extension UpcomingCell{
         return UIEdgeInsets(top: 20, left: 14, bottom: 0, right: 14)
     }
     
+}
+
+//  MARK: Network api call
+extension UpcomingCell{
+    func loadMovie() async{
+        do{
+            let movies = try await self.movieService.fetchMovies(from: .upcoming)
+            self.movies = movies
+            collectionView.reloadData()
+        } catch{
+            
+        }
+    }
 }

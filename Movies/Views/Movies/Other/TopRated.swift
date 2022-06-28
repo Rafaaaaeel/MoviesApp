@@ -10,10 +10,10 @@ import UIKit
 class TopRatedCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     static let identifier = "TopRatedCell"
-
     var movies: [Movie]?
-    
     private let movieService: MovieService = MovieStore.shared
+    
+//  MARK: - UI Components
     
     private lazy var nowPlayingTitleLabel: UILabel = {
         let label = UILabel()
@@ -36,6 +36,7 @@ class TopRatedCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
         return cv
     }()
     
+//  MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,6 +49,8 @@ class TopRatedCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
     
  
 }
+
+//  MARK: - View Functions
 
 extension TopRatedCell{
     func setupHiearchy() {
@@ -69,20 +72,10 @@ extension TopRatedCell{
         Task{
             await loadMovie()
         }
-        
-        
-    }
-    
-    func loadMovie() async{
-        do{
-            let movies = try await self.movieService.fetchMovies(from: .topRated)
-            self.movies = movies
-            collectionView.reloadData()
-        } catch{
-            
-        }
     }
 }
+
+//  MARK: - Collection Delegate & Data Source
 
 extension TopRatedCell{
     
@@ -108,4 +101,16 @@ extension TopRatedCell{
     
 }
 
+//  MARK: Network api call
 
+extension TopRatedCell{
+    func loadMovie() async{
+        do{
+            let movies = try await self.movieService.fetchMovies(from: .topRated)
+            self.movies = movies
+            collectionView.reloadData()
+        } catch{
+            
+        }
+    }
+}

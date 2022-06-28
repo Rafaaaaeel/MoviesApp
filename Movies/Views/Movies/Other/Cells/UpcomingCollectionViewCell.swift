@@ -7,9 +7,11 @@
 
 import UIKit
 
-class UpcomingCollectionViewCell: UICollectionViewCell {
+class UpcomingCollectionViewCell: UICollectionViewCell, ViewFunctions {
     
     static let identifier = "UpcomingCollectionViewCell"
+
+//  MARK: - UI Components
     
     private var imageView: UIImageView = {
         let image = UIImageView()
@@ -27,20 +29,12 @@ class UpcomingCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+//  MARK: - Init
     
     override init(frame: CGRect){
         super.init(frame: frame)
     
-        contentView.addSubview(imageView)
-        addSubview(movieNameLabel)
-        
-        contentView.clipsToBounds = true
-        
-        NSLayoutConstraint.activate([
-            movieNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 0),
-            movieNameLabel.widthAnchor .constraint(equalToConstant: 300)
-        ])
-        
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -51,7 +45,31 @@ class UpcomingCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         imageView.frame = contentView.bounds
     }
+}
+
+//  MARK: - View Functions
+
+extension UpcomingCollectionViewCell{
+    func setupHiearchy() {
+        contentView.addSubview(imageView)
+        addSubview(movieNameLabel)
+    }
     
+    func setupContraints() {
+        NSLayoutConstraint.activate([
+            movieNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 0),
+            movieNameLabel.widthAnchor .constraint(equalToConstant: 300)
+        ])
+    }
+    
+    func additional() {
+        contentView.clipsToBounds = true
+    }
+}
+
+//  MARK: View Model
+
+extension UpcomingCollectionViewCell{
     func configure(with model: Movie){
         self.movieNameLabel.text = model.title
         self.imageView.loadImagefromUrl(url: model.backdropURL)

@@ -47,10 +47,6 @@ extension MoviesViewController{
     func setupContraints() {
         collectionView.frame = view.bounds
     }
-    
-    func additional() {
-        
-    }
 }
 
 
