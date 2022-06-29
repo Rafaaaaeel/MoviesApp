@@ -163,7 +163,10 @@ extension SearchViewController {
             await loadData()
     
         }
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.collectionView.stopSkeletonAnimation()
+            self.view.hideSkeleton(reloadDataAfter: false, transition: .crossDissolve(0.25))
+        }
     }
     
     
@@ -173,10 +176,6 @@ extension SearchViewController {
         do{
             let movies = try await movieservice.searchMovie(query: text)
             self.movies = movies
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.collectionView.stopSkeletonAnimation()
-                self.view.hideSkeleton(reloadDataAfter: false, transition: .crossDissolve(0.25))
-            }
             self.collectionView.reloadData()
         }catch{
             print("Error")

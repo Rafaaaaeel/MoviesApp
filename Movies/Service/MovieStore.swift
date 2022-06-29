@@ -45,6 +45,15 @@ class MovieStore: MovieService {
         
         return movieResponse.results
     }
+    
+    func fetchGenres() async throws -> [Genre] {
+        guard let url = URL(string: "\(baseAPIURL)/genre/movie/list?\(apiKey)&language=en-US") else {
+            throw MovieError.invalidEndpoint
+        }
+        let genreRsponse: GenreResponse  = try await self.loadURLAndDecode(url: url)
+        
+        return genreRsponse.genres
+    }
 
     func searchMovie(query: String) async throws -> [Movie] {
         guard let url = URL(string: "\(baseAPIURL)/search/movie") else {

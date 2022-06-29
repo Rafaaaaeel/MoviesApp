@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = tabBarList
 //        window?.rootViewController = MovieViewController(movieID: 11)
+//        window?.rootViewController = ViewController()
         
         return true
     }

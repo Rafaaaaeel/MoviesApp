@@ -12,6 +12,7 @@ protocol MovieService {
     func fetchMovie(id: Int) async throws -> Movie
     func fetchSimilarMovies(id: Int) async throws -> [Movie]
     func searchMovie(query: String) async throws -> [Movie]
+    func fetchGenres() async throws -> [Genre]
 }
 
 enum MovieListEndpoint: String, CaseIterable{

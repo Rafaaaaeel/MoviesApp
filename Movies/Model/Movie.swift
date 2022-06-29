@@ -12,6 +12,10 @@ struct MovieResponse: Decodable{
     let results: [Movie]
 }
 
+struct GenreResponse: Decodable{
+    let genres: [Genre]
+}
+
 struct Movie: Decodable, Identifiable{
     let id: Int
     let title: String
@@ -30,4 +34,10 @@ struct Movie: Decodable, Identifiable{
     var posterURL: String {
         return "https://image.tmdb.org/t/p/w342/\(posterPath ?? "nothing")"
     }
+}
+
+struct Genre: Decodable, Identifiable{
+    let id: Int
+    let name: String
+    
 }

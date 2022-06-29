@@ -11,7 +11,10 @@ import UIKit
 
 class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
     
+
+
     var movie: Movie?
+    var genres: [Genre]?
     var similarMovies: [Movie]?
     private let movieID: Int
     private var movieService = MovieStore.shared
@@ -51,6 +54,19 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
         return image
     }()
     
+//
+//    lazy var genreLabel: UILabel = {
+//        let label = UILabel()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.text = "Movie"
+//        label.numberOfLines = 0
+//        label.textAlignment = .left
+//        label.lineBreakMode = .byWordWrapping
+//        label.font = UIFont.preferredFont(forTextStyle: .callout)
+//        return label
+//    }()
+//
+
     lazy var overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -84,6 +100,26 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
         label.text = "/10"
         label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    
+    lazy var addToMyListButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "plus"), for: [])
+        button.tintColor = .label
+        button.addTarget(self, action: #selector(addToMyList), for: .touchUpInside)
+        button.configuration?.buttonSize = .large
+        return button
+    }()
+    
+    lazy var addToMyListLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "My list"
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         return label
     }()
     
@@ -134,18 +170,15 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
 //  MARK: - View Functions
 extension MovieViewController: ViewFunctions{
     func setupHiearchy() {
-  
-
- 
-        
-        
-
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
         containerView.addSubview(collectionView)
+//        containerView.addSubview(genreLabel)
         containerView.addSubview(posterImage)
         containerView.addSubview(overviewLabel)
         containerView.addSubview(voteStarImage)
+        containerView.addSubview(addToMyListButton)
+        containerView.addSubview(addToMyListLabel)
         containerView.addSubview(voteAvaregeLabel)
         containerView.addSubview(voteAvaregeTotalLabel)
         containerView.addSubview(similarMoviesLabel)
@@ -155,16 +188,22 @@ extension MovieViewController: ViewFunctions{
     func setupContraints() {
 
         NSLayoutConstraint.activate([
-            posterImage.topAnchor.constraint(equalTo: (containerView).safeAreaLayoutGuide.topAnchor),
-            posterImage.leadingAnchor.constraint(equalTo: (containerView).leadingAnchor),
-            posterImage.trailingAnchor.constraint(equalTo: (containerView).trailingAnchor),
+            posterImage.topAnchor.constraint(equalTo: containerView.topAnchor),
+            posterImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            posterImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             posterImage.heightAnchor.constraint(equalToConstant: 230),
         ])
 
+//        NSLayoutConstraint.activate([
+//            genreLabel.topAnchor.constraint(equalToSystemSpacingBelow: posterImage.bottomAnchor, multiplier: 1),
+//            genreLabel.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor),
+//        ])
+        
         NSLayoutConstraint.activate([
             overviewLabel.topAnchor.constraint(equalToSystemSpacingBelow: posterImage.bottomAnchor, multiplier: 2),
-            overviewLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: posterImage.leadingAnchor, multiplier: 2),
-            overviewLabel.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -16),
+            overviewLabel.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor, constant: 8),
+            overviewLabel.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -16)
+//            overviewLabel.widthAnchor.constraint(equalToConstant: 360)
         ])
 
         NSLayoutConstraint.activate([
@@ -182,6 +221,15 @@ extension MovieViewController: ViewFunctions{
             voteAvaregeTotalLabel.centerYAnchor.constraint(equalTo: voteAvaregeLabel.centerYAnchor),
         ])
 
+        NSLayoutConstraint.activate([
+            addToMyListButton.centerYAnchor.constraint(equalTo: voteStarImage.centerYAnchor),
+            addToMyListButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -32),
+        ])
+        
+        NSLayoutConstraint.activate([
+            addToMyListLabel.topAnchor.constraint(equalToSystemSpacingBelow: addToMyListButton.topAnchor, multiplier: 3),
+            addToMyListLabel.centerXAnchor.constraint(equalTo: addToMyListButton.centerXAnchor)
+        ])
 
         NSLayoutConstraint.activate([
             similarMoviesLabel.topAnchor.constraint(equalToSystemSpacingBelow: voteAvaregeTotalLabel.bottomAnchor, multiplier: 2),
@@ -212,6 +260,9 @@ extension MovieViewController: ViewFunctions{
         
         Task{
             await loadSimilarMovies()
+        }
+        Task{
+            await loadGenres()
         }
         view.backgroundColor = .systemBackground
     }
@@ -245,7 +296,9 @@ extension MovieViewController{
         
         guard let movie = self.similarMovies else { return }
         
-        print(movie[indexPath.row].genreIds!)
+        
+        
+//        print(movie[indexPath.row].genreIds!)
         
         let vc = MovieViewController(movieID: movie[indexPath.row].id)
         self.navigationController?.pushViewController(vc, animated: true )
@@ -258,6 +311,10 @@ extension MovieViewController{
 extension MovieViewController{
     @objc func closeAllPagesAndReturn(){
         navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @objc func addToMyList(){
+        addToMyListButton.setImage(UIImage(systemName: "checkmark"), for: [])
     }
 }
 
@@ -279,6 +336,16 @@ extension MovieViewController{
             self.similarMovies = similarMovies
             collectionView.reloadData()
         } catch{
+            
+        }
+    }
+    
+    func loadGenres() async{
+        do{
+            let genres = try await self.movieService.fetchGenres()
+            self.genres = genres
+        
+        }catch{
             
         }
     }

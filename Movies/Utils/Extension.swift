@@ -49,12 +49,12 @@ extension UIView {
     
     func setCellShadow() {
         self.layer.shadowColor = UIColor.darkGray.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: 1)
-        self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 1.0
+        self.layer.shadowOffset = CGSize(width: 0, height: 0.3)
+        self.layer.shadowOpacity = 0.7
+        self.layer.shadowRadius = 10
         self.layer.masksToBounds = false
-        self.clipsToBounds = false
-        self.layer.cornerRadius = 15
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 9
     }
     
     func setAnchor(top: NSLayoutYAxisAnchor?, bottom: NSLayoutYAxisAnchor?,
