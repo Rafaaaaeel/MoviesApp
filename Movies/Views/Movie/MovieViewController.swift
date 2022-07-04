@@ -12,6 +12,7 @@ import UIKit
 class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
     
 
+//    MVVM Model View ViewModel - VIPER && VIP View Interactor P e Router
 
     var movie: Movie?
     var genres: [Genre]?
@@ -314,6 +315,11 @@ extension MovieViewController{
     }
     
     @objc func addToMyList(){
+        
+        // Check if movie is already saved
+        
+        // If not save on database
+        
         addToMyListButton.setImage(UIImage(systemName: "checkmark"), for: [])
     }
 }

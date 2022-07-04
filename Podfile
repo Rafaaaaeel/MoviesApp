@@ -7,4 +7,7 @@ target 'Movies' do
 
   # Pods for Movies
   pod "SkeletonView"
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
 end

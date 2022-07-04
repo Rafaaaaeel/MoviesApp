@@ -136,4 +136,26 @@ extension UICollectionViewLayout{
         section.orthogonalScrollingBehavior = .groupPaging
         return UICollectionViewCompositionalLayout(section: section)
     }
+    
+}
+
+//  MARK: - UITextField
+
+
+extension UITextField {
+    internal func addBottomBorder(height: CGFloat = 1.0, color: UIColor = .red) {
+        let borderView = UIView()
+        borderView.backgroundColor = color
+        borderView.layer.borderWidth = 1
+        borderView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(borderView)
+        NSLayoutConstraint.activate(
+            [
+                borderView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                borderView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                borderView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                borderView.heightAnchor.constraint(equalToConstant: height)
+            ]
+        )
+    }
 }
