@@ -6,10 +6,17 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
-class RegisterViewController: UIViewController, ViewFunctions {
+internal class RegisterViewController: UINavigationController, ViewFunctions {
     
-    lazy var stackView: UIStackView = {
+    
+    var movies: [Movie] = []
+    
+    private let database =  Firestore.firestore()
+    
+    internal lazy var formListView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 20
@@ -17,7 +24,7 @@ class RegisterViewController: UIViewController, ViewFunctions {
         return stack
     }()
     
-    lazy var nameTextField: UITextField = {
+    internal lazy var nameTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Name"
@@ -27,7 +34,7 @@ class RegisterViewController: UIViewController, ViewFunctions {
         return field
     }()
     
-    lazy var emailTextField: UITextField = {
+    internal lazy var emailTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "E-mail"
@@ -38,29 +45,31 @@ class RegisterViewController: UIViewController, ViewFunctions {
         return field
     }()
     
-    lazy var passwordTextField: UITextField = {
+    internal lazy var passwordTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Password"
         field.textContentType = .password
         field.clipsToBounds = true
+        field.isSecureTextEntry = true
         field.autocapitalizationType = .none
         field.addBottomBorder()
         return field
     }()
     
-    lazy var confirmPasswordTextField: UITextField = {
+    internal lazy var confirmPasswordTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Confirm Password"
         field.textContentType = .password
         field.clipsToBounds = true
+        field.isSecureTextEntry = true
         field.autocapitalizationType = .none
         field.addBottomBorder()
         return field
     }()
     
-    var passwordRuleLabel: UILabel = {
+    internal var passwordRuleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .systemGray
@@ -76,7 +85,7 @@ class RegisterViewController: UIViewController, ViewFunctions {
         return label
     }()
     
-    lazy var signInButton: UIButton = {
+    internal lazy var signInButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Sign up", for: [])
@@ -86,41 +95,77 @@ class RegisterViewController: UIViewController, ViewFunctions {
         button.layer.cornerRadius = 10
         return button
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setup()
     }
+    
 
 }
 
-extension RegisterViewController{
+internal extension RegisterViewController{
+    
+    
     func setupHiearchy() {
-        stackView.addArrangedSubview(nameTextField)
-        stackView.addArrangedSubview(emailTextField)
-        stackView.addArrangedSubview(passwordTextField)
-        stackView.addArrangedSubview(confirmPasswordTextField)
-        stackView.addArrangedSubview(passwordRuleLabel)
-        stackView.addArrangedSubview(signInButton)
-        view.addSubview(stackView)
+        formListView.addArrangedSubview(nameTextField)
+        formListView.addArrangedSubview(emailTextField)
+        formListView.addArrangedSubview(passwordTextField)
+        formListView.addArrangedSubview(confirmPasswordTextField)
+        formListView.addArrangedSubview(passwordRuleLabel)
+        formListView.addArrangedSubview(signInButton)
+        view.addSubview(formListView)
     }
     
     func setupContraints() {
         NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2)
+            formListView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            formListView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: formListView.trailingAnchor, multiplier: 2)
         ])
     }
+    
+    
 }
 
 
-extension RegisterViewController{
-    @objc func register(){
+internal extension RegisterViewController{
+    
+    
+    @objc
+    func register(){
         shouldRegisterUser()
     }
     
-    private func shouldRegisterUser(){
+    func shouldRegisterUser(){
+        guard let name = nameTextField.text, !name.isEmpty ,let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty else { return }
         
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { (result, error) in
+            
+            guard error == nil else {
+                print("Sorry something went wrong")
+                return
+            }
+            
+            let db = Firestore.firestore()
+            
+            db.collection("movies_users").addDocument(data: [
+                "id": result!.user.uid,
+                "name":name,
+                "email":email,
+                "movies": self.movies
+            ]) { Error in
+                if Error != nil{
+                    print(Error?.localizedDescription)
+                }
+            }
+            
+            print("Created")
+            self.present(LoginViewController(), animated: true)
+            
+        })
     }
+    
+    
 }

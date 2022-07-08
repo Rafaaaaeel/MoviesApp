@@ -12,6 +12,8 @@ class ViewController: UIViewController, ViewFunctions, UITableViewDelegate, UITa
     var genres: [Genre]?
     var movieService = MovieStore.shared
 
+   
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .red

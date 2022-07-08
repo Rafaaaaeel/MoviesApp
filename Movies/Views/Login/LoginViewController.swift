@@ -6,12 +6,30 @@
 //
 
 import UIKit
+import FirebaseAuth
 
-class LoginViewController: UIViewController, ViewFunctions {
+internal class LoginViewController: UIViewController, ViewFunctions {
 
+    internal var email: String? {
+        return emailTextField.text
+    }
+    
+    internal var password: String? {
+        return passwordTextField.text
+    }
     
 //  MARK: - UI Components
-    lazy var stackView: UIStackView = {
+    
+    internal lazy var welcomeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Welcome"
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        return label
+    }()
+    
+    internal lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 20
@@ -19,7 +37,7 @@ class LoginViewController: UIViewController, ViewFunctions {
         return stack
     }()
     
-    lazy var emailTextField: UITextField = {
+    internal lazy var emailTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "E-mail"
@@ -30,7 +48,7 @@ class LoginViewController: UIViewController, ViewFunctions {
         return field
     }()
     
-    lazy var passwordTextField: UITextField = {
+    internal lazy var passwordTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Password"
@@ -41,7 +59,7 @@ class LoginViewController: UIViewController, ViewFunctions {
         return field
     }()
     
-    lazy var signInButton: UIButton = {
+    internal lazy var signInButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Sign in", for: [])
@@ -63,8 +81,11 @@ class LoginViewController: UIViewController, ViewFunctions {
 
 
 //  MARK: - View Functions
-extension LoginViewController{
+internal extension LoginViewController{
+    
+    
     func setupHiearchy() {
+        stackView.addArrangedSubview(welcomeLabel)
         stackView.addArrangedSubview(emailTextField)
         stackView.addArrangedSubview(passwordTextField)
         stackView.addArrangedSubview(signInButton)
@@ -79,17 +100,32 @@ extension LoginViewController{
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2)
         ])
     }
+    
+    
 }
 
 
-extension LoginViewController{
-    @objc func login(){
+internal extension LoginViewController{
+   
+    
+    @objc
+    func login(){
         checkIfUserCanLogin()
     }
     
-    private func checkIfUserCanLogin(){
-        guard let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty else {return}
+    func checkIfUserCanLogin(){
+        guard let email = email, !email.isEmpty, let password = password, !password.isEmpty else {return}
         
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] result, error in
+            
+            guard let strongSelf = self else{
+                return
+            }
+            
+            
+        })
         
     }
+    
+    
 }
