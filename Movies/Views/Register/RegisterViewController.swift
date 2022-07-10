@@ -12,9 +12,10 @@ import FirebaseFirestore
 internal class RegisterViewController: UINavigationController, ViewFunctions {
     
     
-    var movies: [Movie] = []
-    
+    internal var movies: [Movie] = []
     private let database =  Firestore.firestore()
+    
+//  MARK: - UI Components
     
     internal lazy var formListView: UIStackView = {
         let stack = UIStackView()
@@ -26,7 +27,6 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
     
     internal lazy var nameTextField: UITextField = {
         let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Name"
         field.clipsToBounds = true
         field.autocapitalizationType = .none
@@ -36,7 +36,6 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
     
     internal lazy var emailTextField: UITextField = {
         let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "E-mail"
         field.textContentType = .emailAddress
         field.clipsToBounds = true
@@ -47,7 +46,6 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
     
     internal lazy var passwordTextField: UITextField = {
         let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Password"
         field.textContentType = .password
         field.clipsToBounds = true
@@ -59,7 +57,6 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
     
     internal lazy var confirmPasswordTextField: UITextField = {
         let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Confirm Password"
         field.textContentType = .password
         field.clipsToBounds = true
@@ -71,7 +68,6 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
     
     internal var passwordRuleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .systemGray
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.numberOfLines = 0
@@ -87,7 +83,6 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
     
     internal lazy var signInButton: UIButton = {
         let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Sign up", for: [])
         button.tintColor = .systemGray2
         button.configuration = .filled()
@@ -95,6 +90,8 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
         button.layer.cornerRadius = 10
         return button
     }()
+    
+//  MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,30 +102,40 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
 
 }
 
+//  MARK: - View Functions
+
 internal extension RegisterViewController{
     
     
     func setupHiearchy() {
-        formListView.addArrangedSubview(nameTextField)
-        formListView.addArrangedSubview(emailTextField)
-        formListView.addArrangedSubview(passwordTextField)
-        formListView.addArrangedSubview(confirmPasswordTextField)
-        formListView.addArrangedSubview(passwordRuleLabel)
-        formListView.addArrangedSubview(signInButton)
+        
+        [nameTextField,
+         emailTextField,
+         passwordTextField,
+         confirmPasswordTextField,
+         passwordRuleLabel,
+         passwordRuleLabel,
+         signInButton
+        ].forEach { view in formListView.addArrangedSubview(view) }
+        
         view.addSubview(formListView)
     }
     
     func setupContraints() {
-        NSLayoutConstraint.activate([
-            formListView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            formListView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: formListView.trailingAnchor, multiplier: 2)
-        ])
+        formListView.snp.makeConstraints { make in
+            make.center.equalTo(view)
+        }
     }
     
+    func additional() {
+        self.navigationBar.isHidden = true
+        self.view.backgroundColor = .black
+    }
     
 }
 
+
+//  MARK: - OBJC Functions + Network call
 
 internal extension RegisterViewController{
     

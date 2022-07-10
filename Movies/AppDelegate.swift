@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window?.rootViewController = MovieViewController(movieID: 11)
 //        window?.rootViewController = ViewController()
         window?.rootViewController = RegisterViewController()
+//        window?.rootViewController = ViewController()
         
         
         

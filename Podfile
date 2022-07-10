@@ -11,5 +11,6 @@ target 'Movies' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/Database'
+  pod 'SnapKit', '~> 5.6.0'
   
 end

@@ -6,30 +6,32 @@
 //
 
 import UIKit
+import SnapKit
 
-class ViewController: UIViewController, ViewFunctions, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, ViewFunctions {
 
-    var genres: [Genre]?
-    var movieService = MovieStore.shared
-
-   
-    
-    lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.backgroundColor = .red
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        return tableView
+    private var welcomeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .label
+        label.text = "Welcome"
+        label.font = UIFont.boldSystemFont(ofSize: 23)
+        return label
     }()
     
+    private var nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .label
+        label.text = "Name"
+        label.font = UIFont.boldSystemFont(ofSize: 23)
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
         setup()
-        
-    
+
     }
 
 
@@ -38,48 +40,25 @@ class ViewController: UIViewController, ViewFunctions, UITableViewDelegate, UITa
 extension ViewController{
     func setupHiearchy() {
         
-        guard let genre = self.genres else {return}
-        print(genre[0].name)
+        view.addSubview(welcomeLabel)
+        view.addSubview(nameLabel)
     }
     
     func setupContraints() {
-        tableView.frame = view.bounds
         
+        welcomeLabel.snp.makeConstraints { make in
+            
+            make.center.equalTo(view)
+            
+        }
+        
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalTo(welcomeLabel.snp.bottom)
+            make.leading.equalTo(welcomeLabel.snp.leading)
+        }
     }
+    
     func additional() {
-        Task{
-            await loadGenres()
-            
-        }
-    }
-    
-}
-
-extension ViewController{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let genre = self.genres else {return 0}
-        return genre.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        
-        guard let genre = self.genres else {return cell}
-        cell.textLabel?.text = genre[indexPath.row].name
-        
-        return cell
-    }
-}
-
-
-extension ViewController{
-    func loadGenres() async{
-        do{
-            let generes = try await movieService.fetchGenres()
-            self.genres = generes
-            self.tableView.reloadData()
-        }catch{
-            
-        }
+        view.backgroundColor = .systemBackground
     }
 }
