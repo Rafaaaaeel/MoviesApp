@@ -29,6 +29,11 @@ class SearchPresenter{
         }
     }
     
+    public func showNewScreen(movieID: Int){
+        let vc = MovieViewController(movieID: movieID)
+        self.delegate?.navigationController?.pushViewController(vc, animated: true )
+    }
+    
     public func setViewDelegate(delegate: MoviesDelegate){
         self.delegate = delegate
     }

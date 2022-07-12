@@ -141,11 +141,9 @@ extension SearchViewController{
         collectionView.deselectItem(at: indexPath, animated: true)
         
         guard let movie = self.movies else { return }
+
         
-        print(movie[indexPath.row].genreIds!)
-        
-        let vc = MovieViewController(movieID: movie[indexPath.row].id)
-        self.navigationController?.pushViewController(vc, animated: true )
+        presenter.showNewScreen(movieID: movie[indexPath.row].id)
     
     }
 }
@@ -155,24 +153,31 @@ extension SearchViewController{
 extension SearchViewController {
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        collectionView.isSkeletonable = true
-        collectionView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .darkGray), animation: nil, transition: .crossDissolve(0.25))
-        
         guard let text = textField.text else {return}
         
-        Task{
-            await presenter.getMoviesByQuery(text:text)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.collectionView.stopSkeletonAnimation()
-            self.view.hideSkeleton(reloadDataAfter: false, transition: .crossDissolve(0.25))
-        }
+        starLoading(query: text)
+        stopLoading()
     }
     
     
     func presentMovies(movies: [Movie]) async {
         self.movies = movies
+    }
+    
+    
+    func starLoading(query: String){
+        collectionView.isSkeletonable = true
+        collectionView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .darkGray), animation: nil, transition: .crossDissolve(0.25))
+        Task{
+            await presenter.getMoviesByQuery(text:query)
+        }
+    }
+    
+    func stopLoading(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.collectionView.stopSkeletonAnimation()
+            self.view.hideSkeleton(reloadDataAfter: false, transition: .crossDissolve(0.25))
+        }
     }
 }
 
