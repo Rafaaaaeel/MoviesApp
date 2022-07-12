@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ViewController: UIViewController, ViewFunctions {
+class ViewController: UIViewController, CodableViews {
 
     private var welcomeLabel: UILabel = {
         let label = UILabel()

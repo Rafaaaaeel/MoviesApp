@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 
-class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, SkeletonCollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, MoviesPresenterDelegate{
+class SearchViewController: UIViewController, CodableViews, UICollectionViewDelegateFlowLayout, SkeletonCollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SearchPresenterDelegate{
  
 
     var movies: [Movie]?
@@ -25,7 +25,6 @@ class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDel
         textField.clipsToBounds = true
         textField.layer.borderWidth = 1
         textField.leftViewMode = .always
-    
         textField.tintColor = .white
         let image = UIImage(systemName: "magnifyingglass")
         let imageView = UIImageView(image: image)

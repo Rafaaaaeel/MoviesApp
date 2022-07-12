@@ -7,11 +7,11 @@
 
 import UIKit
 
-class PopularCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+internal class PopularCell: UICollectionViewCell, CodableViews, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MoviePresenterDelegate{
     
     static let identifier = "PopularCell"
     var movies: [Movie]?
-    private let movieService: MovieService = MovieStore.shared
+    private let presenter = MoviePresenter()
 
 //  MARK: - UI Components
     
@@ -51,10 +51,9 @@ class PopularCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate
 
 //  MARK: - View Functions
 
-extension PopularCell{
+internal extension PopularCell{
     func setupHiearchy() {
-        addSubview(collectionView)
-        addSubview(popularTitleLabel)
+        addSubviews(collectionView,popularTitleLabel)
     }
     
     func setupContraints() {
@@ -67,15 +66,14 @@ extension PopularCell{
     }
     
     func additional() {
-        Task{
-            await loadMovie()
-        }
+        presenter.setViewDelegate(delegate: self)
+        starLoading()
     }
 }
 
 //  MARK: - Collection Delegate & Data Source
 
-extension PopularCell{
+internal extension PopularCell{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -83,6 +81,7 @@ extension PopularCell{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularCollectionViewCell.identifier, for: indexPath) as! PopularCollectionViewCell
+        
         guard let movies = self.movies else { return cell}
         
         cell.configure(with: movies[indexPath.row])
@@ -102,14 +101,17 @@ extension PopularCell{
 
 //  MARK: Network api call
 
-extension PopularCell{
-    func loadMovie() async{
-        do{
-            let movies = try await self.movieService.fetchMovies(from: .popular)
-            self.movies = movies
+internal extension PopularCell{
+    
+    func presentMovies(movies: [Movie]) async {
+        self.movies = movies
+    }
+
+    func starLoading(){
+        Task{
+            await presenter.getMovies(endpoint: .popular)
             collectionView.reloadData()
-        } catch{
-            
         }
     }
+    
 }

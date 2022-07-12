@@ -1,17 +1,17 @@
 //
-//  NowPlayinhCollectionViewCell.swift
+//  PopularCollectionViewCell.swift
 //  MovieSearchClone
 //
-//  Created by Rafael Oliveira on 14/06/22.
+//  Created by Rafael Oliveira on 22/06/22.
 //
 
 import UIKit
 import SkeletonView
 
-class NowPlayingCollectionViewCell: UICollectionViewCell, ViewFunctions {
+class PopularCollectionViewCell: UICollectionViewCell, CodableViews {
 
-    static let identifier = "NowPlayingCollectionViewCell"
-
+    static let identifier = "PopularCollectionViewCell"
+    
 //  MARK: - UI Components
     
     private let imageView: UIImageView = {
@@ -23,9 +23,10 @@ class NowPlayingCollectionViewCell: UICollectionViewCell, ViewFunctions {
     }()
     
 //  MARK: - Init
+    
     override init(frame: CGRect){
         super.init(frame: frame)
-        
+
         setup()
         self.isSkeletonable = true
     }
@@ -38,12 +39,11 @@ class NowPlayingCollectionViewCell: UICollectionViewCell, ViewFunctions {
         super.layoutSubviews()
         imageView.frame = contentView.bounds
     }
-    
 }
 
-//  MARK: - View Functions
+//  MARK: View Functions
 
-extension NowPlayingCollectionViewCell{
+extension PopularCollectionViewCell{
     func setupHiearchy() {
         contentView.addSubview(imageView)
     }
@@ -59,7 +59,7 @@ extension NowPlayingCollectionViewCell{
 
 //  MARK: - View Model
 
-extension NowPlayingCollectionViewCell{
+extension PopularCollectionViewCell{
     func configure(with model: Movie){
         self.imageView.loadImagefromUrl(url: model.posterURL)
     }

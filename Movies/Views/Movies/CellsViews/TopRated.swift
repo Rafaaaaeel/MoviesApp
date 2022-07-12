@@ -7,11 +7,11 @@
 
 import UIKit
 
-class TopRatedCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+class TopRatedCell: UICollectionViewCell, CodableViews, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MoviePresenterDelegate{
     
     static let identifier = "TopRatedCell"
     var movies: [Movie]?
-    private let movieService: MovieService = MovieStore.shared
+    private let presenter = MoviePresenter()
     
 //  MARK: - UI Components
     
@@ -53,8 +53,7 @@ class TopRatedCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
 
 extension TopRatedCell{
     func setupHiearchy() {
-        addSubview(collectionView)
-        addSubview(topRatedTitleLabel)
+        addSubviews(collectionView,topRatedTitleLabel)
     }
     
     func setupContraints() {
@@ -67,10 +66,8 @@ extension TopRatedCell{
     }
     
     func additional() {
-        
-        Task{
-            await loadMovie()
-        }
+        presenter.setViewDelegate(delegate: self)
+        starLoading()
     }
 }
 
@@ -103,13 +100,14 @@ extension TopRatedCell{
 //  MARK: Network api call
 
 extension TopRatedCell{
-    func loadMovie() async{
-        do{
-            let movies = try await self.movieService.fetchMovies(from: .topRated)
-            self.movies = movies
+    func presentMovies(movies: [Movie]) async {
+        self.movies = movies
+    }
+
+    func starLoading(){
+        Task{
+            await presenter.getMovies(endpoint: .topRated)
             collectionView.reloadData()
-        } catch{
-            
         }
     }
 }

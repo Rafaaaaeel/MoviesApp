@@ -8,7 +8,7 @@
 import UIKit
 
 
-class MoviesViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate      {
+internal class MoviesViewController: UIViewController, CodableViews, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate      {
 
 //  MARK: - UI Components
     
@@ -29,6 +29,7 @@ class MoviesViewController: UIViewController, ViewFunctions, UICollectionViewDel
     }()
 
 //  MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Movies"
@@ -39,6 +40,7 @@ class MoviesViewController: UIViewController, ViewFunctions, UICollectionViewDel
 
 
 //  MARK: - Setup Function
+
 extension MoviesViewController{
     func setupHiearchy() {
         view.addSubview(collectionView)
@@ -63,7 +65,6 @@ extension MoviesViewController{
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         switch indexPath.section{
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingCell.identifier, for: indexPath) as! UpcomingCell

@@ -8,14 +8,14 @@
 import Foundation
 
 
-public protocol ViewFunctions {
+public protocol CodableViews {
     func setup()
     func setupHiearchy()
     func setupContraints()
     func additional()
 }
 
-extension ViewFunctions{
+extension CodableViews{
     func setup(){
         setupHiearchy()
         setupContraints()

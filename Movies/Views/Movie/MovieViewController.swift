@@ -169,7 +169,7 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
 }
 
 //  MARK: - View Functions
-extension MovieViewController: ViewFunctions{
+extension MovieViewController: CodableViews{
     func setupHiearchy() {
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)

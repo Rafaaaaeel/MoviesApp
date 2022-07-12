@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-internal class RegisterViewController: UIViewController, ViewFunctions {
+internal class RegisterViewController: UIViewController, CodableViews {
     
     internal var movies: [Movie] = []
     private let database = Firestore.firestore()

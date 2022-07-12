@@ -7,11 +7,13 @@
 
 import UIKit 
 
-class UpcomingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+internal class UpcomingCell: UICollectionViewCell, CodableViews, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MoviePresenterDelegate{
+
+    
     
     static let identifier = "UpcomingCell"
-    var movies: [Movie]?
-    private let movieService: MovieService = MovieStore.shared
+    private var movies: [Movie]?
+    private let presenter = MoviePresenter()
     
 //  MARK: - UI Components
     
@@ -51,10 +53,9 @@ class UpcomingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegat
 
 //  MARK: - View Functions
 
-extension UpcomingCell{
+internal extension UpcomingCell{
     func setupHiearchy() {
-        addSubview(collectionView)
-        addSubview(upcomingTitleLabel)
+        addSubviews(collectionView,upcomingTitleLabel)
     }
     
     func setupContraints() {
@@ -65,17 +66,16 @@ extension UpcomingCell{
             upcomingTitleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: collectionView.leadingAnchor, multiplier: 1)
         ])
     }
-
+    
     func additional() {
-        Task{
-            await loadMovie()
-        }
+        presenter.setViewDelegate(delegate: self)
+        starLoading()
     }
 }
 
 //  MARK: - Collection Delegate & Data Source
 
-extension UpcomingCell{
+internal extension UpcomingCell{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -84,7 +84,7 @@ extension UpcomingCell{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingCollectionViewCell.identifier, for: indexPath) as! UpcomingCollectionViewCell
         
-        guard let movies = self.movies else { return cell}
+        guard let movies = self.movies else { return cell }
         
         cell.configure(with: movies[indexPath.row])
         return cell
@@ -101,14 +101,17 @@ extension UpcomingCell{
 }
 
 //  MARK: Network api call
-extension UpcomingCell{
-    func loadMovie() async{
-        do{
-            let movies = try await self.movieService.fetchMovies(from: .upcoming)
-            self.movies = movies
+internal extension UpcomingCell{
+
+    func presentMovies(movies: [Movie]) async {
+        self.movies = movies
+    }
+
+    func starLoading(){
+        Task{
+            await presenter.getMovies(endpoint: .upcoming)
             collectionView.reloadData()
-        } catch{
-            
         }
     }
+    
 }

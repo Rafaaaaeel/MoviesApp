@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-internal class LoginViewController: UINavigationController, ViewFunctions {
+internal class LoginViewController: UINavigationController, CodableViews {
 
     internal var email: String? {
         return emailTextField.text

@@ -1,5 +1,5 @@
 //
-//  UpcomingCollectionViewCell.swift
+//  TopRatedCollectionViewCell.swift
 //  MovieSearchClone
 //
 //  Created by Rafael Oliveira on 22/06/22.
@@ -8,13 +8,13 @@
 import UIKit
 import SkeletonView
 
-class UpcomingCollectionViewCell: UICollectionViewCell, ViewFunctions {
+class TopRatedCollectionViewCell: UICollectionViewCell, CodableViews {
     
-    static let identifier = "UpcomingCollectionViewCell"
-
+    static let identifier = "TopRatedCollectionViewCell"
+    
 //  MARK: - UI Components
     
-    private var imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let image = UIImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
@@ -25,16 +25,15 @@ class UpcomingCollectionViewCell: UICollectionViewCell, ViewFunctions {
     private lazy var movieNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Movie title Test"
+        label.text = "Movie"
         label.font = UIFont.preferredFont(forTextStyle: .body)
         return label
     }()
     
-//  MARK: - Init
+//  MARK: Init
     
     override init(frame: CGRect){
         super.init(frame: frame)
-    
         setup()
         self.isSkeletonable = true
     }
@@ -51,27 +50,28 @@ class UpcomingCollectionViewCell: UICollectionViewCell, ViewFunctions {
 
 //  MARK: - View Functions
 
-extension UpcomingCollectionViewCell{
+extension TopRatedCollectionViewCell{
     func setupHiearchy() {
         contentView.addSubview(imageView)
         addSubview(movieNameLabel)
+        
     }
     
     func setupContraints() {
         NSLayoutConstraint.activate([
             movieNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 0),
-            movieNameLabel.widthAnchor .constraint(equalToConstant: 300)
         ])
     }
     
     func additional() {
         contentView.clipsToBounds = true
     }
+    
 }
 
-//  MARK: View Model
+//  MARK: - View Model
 
-extension UpcomingCollectionViewCell{
+extension TopRatedCollectionViewCell{
     func configure(with model: Movie){
         self.movieNameLabel.text = model.title
         self.imageView.loadImagefromUrl(url: model.backdropURL)

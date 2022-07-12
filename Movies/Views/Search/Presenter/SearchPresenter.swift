@@ -8,15 +8,15 @@
 import Foundation
 import UIKit
 
-typealias MoviesDelegate = MoviesPresenterDelegate & UIViewController
+typealias SearchDelegate = SearchPresenterDelegate & UIViewController
 
-protocol MoviesPresenterDelegate: AnyObject{
+protocol SearchPresenterDelegate: AnyObject{
     func presentMovies(movies: [Movie]) async
 }
 
 class SearchPresenter{
     
-    weak var delegate: MoviesDelegate?
+    weak var delegate: SearchDelegate?
     private var movieservice = MovieStore.shared
     
     public func getMoviesByQuery(text: String) async {
@@ -34,7 +34,7 @@ class SearchPresenter{
         self.delegate?.navigationController?.pushViewController(vc, animated: true )
     }
     
-    public func setViewDelegate(delegate: MoviesDelegate){
+    public func setViewDelegate(delegate: SearchDelegate){
         self.delegate = delegate
     }
 }

@@ -7,11 +7,13 @@
 
 import UIKit
 
-class NowPlayingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+internal class NowPlayingCell: UICollectionViewCell, CodableViews, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MoviePresenterDelegate{
+
+    
     
     static let identifier = "NowPlayingCell"
-    var movies: [Movie]?
-    private let movieService: MovieService = MovieStore.shared
+    private var movies: [Movie]?
+    private let presenter = MoviePresenter()
     
 //  MARK: - UI Components
     
@@ -49,10 +51,10 @@ class NowPlayingCell: UICollectionViewCell, ViewFunctions, UICollectionViewDeleg
 
 //  MARK: - View Functions
 
-extension NowPlayingCell{
+internal extension NowPlayingCell{
+    
     func setupHiearchy() {
-        addSubview(collectionView)
-        addSubview(nowPlayingTitleLabel)
+        addSubviews(collectionView,nowPlayingTitleLabel)
     }
     
     func setupContraints() {
@@ -65,16 +67,15 @@ extension NowPlayingCell{
     }
     
     func additional() {
-        
-        Task{
-            await loadMovie()
-        }
+        presenter.setViewDelegate(delegate: self)
+        startLoading()
     }
+    
 }
 
 //  MARK: - Collection Delegate & Data Source
 
-extension NowPlayingCell{
+internal extension NowPlayingCell{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -82,7 +83,7 @@ extension NowPlayingCell{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NowPlayingCollectionViewCell.identifier, for: indexPath) as! NowPlayingCollectionViewCell
-        guard let movies = self.movies else { return cell}
+        guard let movies = self.movies else { return cell }
         
         cell.configure(with: movies[indexPath.row])
         return cell
@@ -100,14 +101,17 @@ extension NowPlayingCell{
 
 //  MARK: Network api call
 
-extension NowPlayingCell{
-    func loadMovie() async{
-        do{
-            let movies = try await self.movieService.fetchMovies(from: .nowPlaying)
-            self.movies = movies
+internal extension NowPlayingCell{
+    
+    func presentMovies(movies: [Movie]) async {
+        self.movies = movies
+    }
+    
+    func startLoading(){
+        Task{
+            await presenter.getMovies(endpoint:.nowPlaying)
             collectionView.reloadData()
-        } catch{
-            
         }
     }
+    
 }
