@@ -9,13 +9,11 @@ import UIKit
 import SkeletonView
 
 
-class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, SkeletonCollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate{
-
-    
+class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDelegateFlowLayout, SkeletonCollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, MoviesPresenterDelegate{
+ 
 
     var movies: [Movie]?
-    private var movieservice = MovieStore.shared
-    
+    private let presenter = SearchPresenter()
     
 //  MARK: - UI Components
     
@@ -58,7 +56,7 @@ class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDel
 
         setup()
         
-        
+    
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -79,8 +77,7 @@ class SearchViewController: UIViewController, ViewFunctions, UICollectionViewDel
 extension SearchViewController {
     func setupHiearchy() {
         
-        view.addSubview(searchMovieTextField)
-        view.addSubview(collectionView)
+        view.addSubviews(searchMovieTextField,collectionView)
         view.sendSubviewToBack(collectionView)
     }
     
@@ -102,6 +99,7 @@ extension SearchViewController {
     
     func additional() {
         searchMovieTextField.becomeFirstResponder()
+        presenter.setViewDelegate(delegate: self)
         collectionView.keyboardDismissMode = .onDrag
         navigationItem.hidesBackButton = true
         navigationItem.backButtonTitle = ""
@@ -159,10 +157,13 @@ extension SearchViewController {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         collectionView.isSkeletonable = true
         collectionView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .darkGray), animation: nil, transition: .crossDissolve(0.25))
+        
+        guard let text = textField.text else {return}
+        
         Task{
-            await loadData()
-    
+            await presenter.getMoviesByQuery(text:text)
         }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.collectionView.stopSkeletonAnimation()
             self.view.hideSkeleton(reloadDataAfter: false, transition: .crossDissolve(0.25))
@@ -170,16 +171,8 @@ extension SearchViewController {
     }
     
     
-    func loadData() async{
-        guard let text = searchMovieTextField.text, !text.isEmpty else {return}
-        
-        do{
-            let movies = try await movieservice.searchMovie(query: text)
-            self.movies = movies
-            self.collectionView.reloadData()
-        }catch{
-            print("Error")
-        }
+    func presentMovies(movies: [Movie]) async {
+        self.movies = movies
     }
 }
 

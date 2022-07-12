@@ -57,35 +57,6 @@ extension UIView {
         self.layer.cornerRadius = 9
     }
     
-    func setAnchor(top: NSLayoutYAxisAnchor?, bottom: NSLayoutYAxisAnchor?,
-                   left: NSLayoutXAxisAnchor?,  right: NSLayoutXAxisAnchor?,
-                   paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat,
-                   width: CGFloat = 0, height: CGFloat = 0){
-        
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
-        if let top = top{
-            self.topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
-        }
-        
-        if let left = left{
-            self.leftAnchor.constraint(equalTo: left, constant: paddingLeft).isActive = true
-        }
-        if let right = right{
-            self.rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
-        }
-        if let bottom = bottom{
-            self.topAnchor.constraint(equalTo: bottom, constant: paddingBottom).isActive = true
-        }
-        
-        if width != 0{
-            self.widthAnchor.constraint(equalToConstant: width).isActive = true
-        }
-        
-        if height != 0{
-            self.heightAnchor.constraint(equalToConstant: height).isActive = true
-        }
-    }
 }
 
 //  MARK: - UICollectionViewLayout
@@ -140,13 +111,12 @@ extension UICollectionViewLayout{
 }
 
 //  MARK: - UITextField
-
+let passwordTottleButton = UIButton(type: .custom)
 
 extension UITextField {
-    internal func addBottomBorder(height: CGFloat = 1.0, color: UIColor = .red) {
+    internal func addBottomBorder(height: CGFloat = 1.0, color: UIColor = .darkGray) {
         let borderView = UIView()
         borderView.backgroundColor = color
-        borderView.layer.borderWidth = 1
         borderView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(borderView)
         NSLayoutConstraint.activate(
@@ -154,8 +124,29 @@ extension UITextField {
                 borderView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 borderView.trailingAnchor.constraint(equalTo: trailingAnchor),
                 borderView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                borderView.heightAnchor.constraint(equalToConstant: height)
+                borderView.heightAnchor.constraint(equalToConstant: height),
             ]
         )
+    }
+    
+    
+    func enablePasswordToggle(){
+        passwordTottleButton.setImage(UIImage(systemName: "eye.fill"), for: .normal)
+        passwordTottleButton.setImage(UIImage(systemName: "eye.slash.fill"), for: .selected)
+        passwordTottleButton.addTarget(self, action: #selector(togglePasswordView), for: .touchUpInside)
+        rightView = passwordTottleButton
+        rightViewMode = .always
+    }
+    
+    @objc
+    func togglePasswordView(_ sender: Any){
+        isSecureTextEntry.toggle()
+        passwordTottleButton.isSelected.toggle()
+    }
+}
+
+extension UIView{
+    func addSubviews(_ subviews: UIView...){
+        subviews.forEach(addSubview)
     }
 }

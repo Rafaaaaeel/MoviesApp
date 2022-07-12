@@ -47,9 +47,7 @@ extension ViewController{
     func setupContraints() {
         
         welcomeLabel.snp.makeConstraints { make in
-            
             make.center.equalTo(view)
-            
         }
         
         nameLabel.snp.makeConstraints { make in

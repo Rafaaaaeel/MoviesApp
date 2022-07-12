@@ -9,11 +9,10 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-internal class RegisterViewController: UINavigationController, ViewFunctions {
-    
+internal class RegisterViewController: UIViewController, ViewFunctions {
     
     internal var movies: [Movie] = []
-    private let database =  Firestore.firestore()
+    private let database = Firestore.firestore()
     
 //  MARK: - UI Components
     
@@ -52,6 +51,7 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
         field.isSecureTextEntry = true
         field.autocapitalizationType = .none
         field.addBottomBorder()
+//        field.enablePasswordToggle()u
         return field
     }()
     
@@ -62,6 +62,7 @@ internal class RegisterViewController: UINavigationController, ViewFunctions {
         field.clipsToBounds = true
         field.isSecureTextEntry = true
         field.autocapitalizationType = .none
+//        field.enablePasswordToggle()
         field.addBottomBorder()
         return field
     }()
@@ -128,9 +129,9 @@ internal extension RegisterViewController{
     }
     
     func additional() {
-        self.navigationBar.isHidden = true
         self.view.backgroundColor = .black
     }
+    
     
 }
 

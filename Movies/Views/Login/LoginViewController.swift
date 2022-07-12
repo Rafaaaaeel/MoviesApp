@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-internal class LoginViewController: UIViewController, ViewFunctions {
+internal class LoginViewController: UINavigationController, ViewFunctions {
 
     internal var email: String? {
         return emailTextField.text
@@ -25,7 +25,7 @@ internal class LoginViewController: UIViewController, ViewFunctions {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Welcome"
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 24)
         return label
     }()
     
@@ -69,6 +69,15 @@ internal class LoginViewController: UIViewController, ViewFunctions {
         button.layer.cornerRadius = 10
         return button
     }()
+    
+    internal lazy var signUp: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("Sign up", for: [])
+        btn.tintColor = .label
+        btn.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
+        return btn
+    }()
 
     
 //  MARK: - Life cycle
@@ -85,20 +94,33 @@ internal extension LoginViewController{
     
     
     func setupHiearchy() {
-        stackView.addArrangedSubview(welcomeLabel)
-        stackView.addArrangedSubview(emailTextField)
-        stackView.addArrangedSubview(passwordTextField)
-        stackView.addArrangedSubview(signInButton)
+        
+        [welcomeLabel,
+         emailTextField,
+         passwordTextField,
+         signInButton
+        ].forEach { view in stackView.addArrangedSubview(view) }
+        
+        view.addSubview(signUp)
         view.addSubview(stackView)
     }
     
     func setupContraints() {
-        NSLayoutConstraint.activate(
-            [
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2)
-        ])
+        stackView.snp.makeConstraints { make in
+            make.center.equalTo(view)
+            make.leading.lessThanOrEqualToSuperview().inset(32)
+            make.trailing.lessThanOrEqualToSuperview().inset(32)
+        }
+        
+        signUp.snp.makeConstraints { make in
+            make.top.equalTo(stackView.snp.bottom).inset(-8)
+            make.trailing.equalTo(stackView)
+        }
+    }
+    
+    func additional() {
+        self.navigationBar.isHidden = true
+        self.view.backgroundColor = .black
     }
     
     
@@ -113,12 +135,18 @@ internal extension LoginViewController{
         checkIfUserCanLogin()
     }
     
+    @objc
+    func signUpPressed(_ sender: Any){
+        let vc = RegisterViewController()
+        navigationController?.pushViewController(vc, animated: true )
+    }
+    
     func checkIfUserCanLogin(){
         guard let email = email, !email.isEmpty, let password = password, !password.isEmpty else {return}
         
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { [weak self] result, error in
             
-            guard let strongSelf = self else{
+            guard let self = self else{
                 return
             }
             
