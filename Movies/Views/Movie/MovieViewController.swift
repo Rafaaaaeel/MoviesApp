@@ -175,14 +175,7 @@ extension MovieViewController: CodableViews{
         scrollView.addSubview(containerView)
         containerView.addSubview(collectionView)
 //        containerView.addSubview(genreLabel)
-        containerView.addSubview(posterImage)
-        containerView.addSubview(overviewLabel)
-        containerView.addSubview(voteStarImage)
-        containerView.addSubview(addToMyListButton)
-        containerView.addSubview(addToMyListLabel)
-        containerView.addSubview(voteAvaregeLabel)
-        containerView.addSubview(voteAvaregeTotalLabel)
-        containerView.addSubview(similarMoviesLabel)
+        containerView.addSubviews(posterImage,overviewLabel,voteStarImage,addToMyListButton,addToMyListLabel,voteAvaregeLabel,voteAvaregeTotalLabel,similarMoviesLabel)
         
     }
     
