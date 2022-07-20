@@ -73,7 +73,9 @@ extension UpcomingCollectionViewCell{
 
 extension UpcomingCollectionViewCell{
     func configure(with model: Movie){
-        self.movieNameLabel.text = model.title
-        self.imageView.loadImagefromUrl(url: model.backdropURL)
+        DispatchQueue.main.async {
+            self.movieNameLabel.text = model.title
+            self.imageView.sd_setImage(with: model.backdropURL)
+        }
     }
 }

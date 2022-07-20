@@ -12,5 +12,5 @@ target 'Movies' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Database'
   pod 'SnapKit', '~> 5.6.0'
-  
+  pod 'SDWebImage', '~> 5.0'
 end

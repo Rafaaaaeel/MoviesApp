@@ -14,8 +14,8 @@
             filePath = "Movies/Views/Movie/MovieViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "additional()"
             landmarkType = "7">
          </BreakpointContent>
@@ -55,22 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4BF50F57-4391-4D89-B9C3-0498F417431A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Movies/Views/Search/View/SearchViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "collectionView(_:didSelectItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7DC4F19F-E69D-4F08-B6FD-A686DBB76EDD"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -81,6 +65,102 @@
             startingLineNumber = "32"
             endingLineNumber = "32"
             landmarkName = "showNewScreen(movieID:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "47D77D43-540F-4E84-870D-A84E777C3BD7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Movies/Views/Movies/CellsViews/Popular.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "collectionView(_:didSelectItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "420396FC-5719-4EE2-8A20-D09F431AD4A1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Movies/Service/MovieStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "loadURLAndDecode(url:params:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "420396FC-5719-4EE2-8A20-D09F431AD4A1 - 87cd21189eef75ee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Movies.MovieStore.loadURLAndDecode&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Swift.Decodable&gt;(url: Foundation.URL, params: Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.String&gt;&gt;) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Movies"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rafaeloliveira/Developer/iOSDev/Projects/MoviesApp/Movies/Service/MovieStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "428">
+               </Location>
+               <Location
+                  uuid = "420396FC-5719-4EE2-8A20-D09F431AD4A1 - b73613f51eab1262"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Movies.MovieStore.loadURLAndDecode&lt;&#x3c4;_0_0 where &#x3c4;_0_0: Swift.Decodable&gt;(url: Foundation.URL, params: Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.String&gt;&gt;) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Movies"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rafaeloliveira/Developer/iOSDev/Projects/MoviesApp/Movies/Service/MovieStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "160">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0AE64267-9ABF-4F61-ACEF-BBD2AD4DBAEF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Movies/Views/Movies/CellsViews/Cells/NowPlayingCollectionViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "NowPlayingCollectionViewCell"
+            landmarkType = "21">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C5ED9508-E6C5-4529-A083-22BC98EA360F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Movies/Views/Movies/CellsViews/Upcoming.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "startLoading()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

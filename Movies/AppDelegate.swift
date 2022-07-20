@@ -36,8 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         tabBarList.viewControllers = [mainNavigationController,searchNavigationController]
         
-        window?.rootViewController = tabBarList
-//        window?.rootViewController = MovieViewController(movieID: 11)
+//        window?.rootViewController = tabBarList
+        window?.rootViewController = NewMovieViewController(movieID: 11)
 //        window?.rootViewController = ViewController()
 //        window?.rootViewController = RegisterViewController()
 //        window?.rootViewController = ViewController()

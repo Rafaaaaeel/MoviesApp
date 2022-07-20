@@ -780,6 +780,9 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.1)
+  - SDWebImage (5.13.1):
+    - SDWebImage/Core (= 5.13.1)
+  - SDWebImage/Core (5.13.1)
   - SkeletonView (1.29.2)
   - SnapKit (5.6.0)
 
@@ -788,6 +791,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Firestore
+  - SDWebImage (~> 5.0)
   - SkeletonView
   - SnapKit (~> 5.6.0)
 
@@ -814,6 +818,7 @@ SPEC REPOS:
     - Libuv-gRPC
     - nanopb
     - PromisesObjC
+    - SDWebImage
     - SkeletonView
     - SnapKit
 
@@ -839,9 +844,10 @@ SPEC CHECKSUMS:
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  SDWebImage: fb26a455eeda4c7a55e4dcb6172dbb258af7a4ca
   SkeletonView: 915a80ecc2b6421ab7ac0f0212321c0cc1406472
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 1cf15ec0372778fc4745119900dc47415266b633
+PODFILE CHECKSUM: a910df01ba5c58c83a89eb3f65a4a8175fd4c0ba
 
 COCOAPODS: 1.11.3

@@ -33,8 +33,7 @@ class ViewController: UIViewController, CodableViews {
         setup()
 
     }
-
-
+    
 }
 
 extension ViewController{

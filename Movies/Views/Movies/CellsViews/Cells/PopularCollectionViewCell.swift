@@ -61,6 +61,8 @@ extension PopularCollectionViewCell{
 
 extension PopularCollectionViewCell{
     func configure(with model: Movie){
-        self.imageView.loadImagefromUrl(url: model.posterURL)
+        DispatchQueue.main.async {
+            self.imageView.sd_setImage(with: model.posterURL)
+        }
     }
 }

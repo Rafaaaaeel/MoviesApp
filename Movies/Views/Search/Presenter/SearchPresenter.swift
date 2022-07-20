@@ -25,7 +25,7 @@ class SearchPresenter{
             let movies = try await movieservice.searchMovie(query: text)
             await self.delegate?.presentMovies(movies: movies)
         }catch{
-            print("Error")
+            
         }
     }
     

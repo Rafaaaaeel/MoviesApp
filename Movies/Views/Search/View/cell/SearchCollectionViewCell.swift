@@ -46,6 +46,8 @@ class SearchMoviesCollectionViewCell: UICollectionViewCell{
 
 extension SearchMoviesCollectionViewCell{
     func configure(with model: Movie){
-        self.imageResult.loadImagefromUrl(url: model.posterURL)
+        DispatchQueue.main.async {
+            self.imageResult.sd_setImage(with: model.posterURL)
+        }
     }
 }

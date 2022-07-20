@@ -69,7 +69,7 @@ internal extension UpcomingCell{
     
     func additional() {
         presenter.setViewDelegate(delegate: self)
-        starLoading()
+        startLoading()
     }
 }
 
@@ -98,6 +98,14 @@ internal extension UpcomingCell{
         return UIEdgeInsets(top: 20, left: 14, bottom: 0, right: 14)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let movie = self.movies else { return }
+
+        print("movieID: \(movie[indexPath.row].id)")
+    }
+    
 }
 
 //  MARK: Network api call
@@ -107,7 +115,7 @@ internal extension UpcomingCell{
         self.movies = movies
     }
 
-    func starLoading(){
+    func startLoading(){
         Task{
             await presenter.getMovies(endpoint: .upcoming)
             collectionView.reloadData()

@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import SDWebImage
 
 class NowPlayingCollectionViewCell: UICollectionViewCell, CodableViews {
 
@@ -61,6 +62,8 @@ extension NowPlayingCollectionViewCell{
 
 extension NowPlayingCollectionViewCell{
     func configure(with model: Movie){
-        self.imageView.loadImagefromUrl(url: model.posterURL)
+        DispatchQueue.main.async {
+            self.imageView.sd_setImage(with: model.posterURL)
+        }
     }
 }

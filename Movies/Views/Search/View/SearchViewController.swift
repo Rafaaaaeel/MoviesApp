@@ -25,7 +25,7 @@ class SearchViewController: UIViewController, CodableViews, UICollectionViewDele
         textField.clipsToBounds = true
         textField.layer.borderWidth = 1
         textField.leftViewMode = .always
-        textField.tintColor = .white
+        textField.tintColor = .black
         let image = UIImage(systemName: "magnifyingglass")
         let imageView = UIImageView(image: image)
         imageView.tintColor = .darkGray
@@ -141,9 +141,7 @@ extension SearchViewController{
         
         guard let movie = self.movies else { return }
 
-        
-        presenter.showNewScreen(movieID: movie[indexPath.row].id)
-    
+        presenter.showNewScreen(movieID: movie[indexPath.row].id)    
     }
 }
 

@@ -7,9 +7,10 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 
-class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
+class NewMovieViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
     
 
 //    MVVM Model View ViewModel - VIPER && VIP View Interactor P e Router
@@ -31,21 +32,7 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
     }
     
 //  MARK: - UI Components
-//
-    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 600)
 
-    lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.frame = self.view.bounds
-        view.contentSize = contentViewSize
-        return view
-    }()
-
-    lazy var containerView: UIView = {
-        let view = UIView()
-        view.frame.size = contentViewSize
-        return view
-    }()
     
     lazy var posterImage: UIImageView = {
         let image = UIImageView()
@@ -168,74 +155,24 @@ class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout,
 }
 
 //  MARK: - View Functions
-extension MovieViewController: CodableViews{
+extension NewMovieViewController: CodableViews{
     func setupHiearchy() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(containerView)
-        containerView.addSubview(collectionView)
-//        containerView.addSubview(genreLabel)
-        containerView.addSubviews(posterImage,overviewLabel,voteStarImage,addToMyListButton,addToMyListLabel,voteAvaregeLabel,voteAvaregeTotalLabel,similarMoviesLabel)
+
+        view.addSubviews(posterImage,overviewLabel,voteStarImage,addToMyListButton,addToMyListLabel,voteAvaregeLabel,voteAvaregeTotalLabel,similarMoviesLabel)
         
     }
     
     func setupContraints() {
 
-        NSLayoutConstraint.activate([
-            posterImage.topAnchor.constraint(equalTo: containerView.topAnchor),
-            posterImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            posterImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            posterImage.heightAnchor.constraint(equalToConstant: 430),
-        ])
-
-//        NSLayoutConstraint.activate([
-//            genreLabel.topAnchor.constraint(equalToSystemSpacingBelow: posterImage.bottomAnchor, multiplier: 1),
-//            genreLabel.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor),
-//        ])
+        posterImage.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.bottomMargin.equalTo(-200)
+        }
         
-        NSLayoutConstraint.activate([
-            overviewLabel.topAnchor.constraint(equalToSystemSpacingBelow: posterImage.bottomAnchor, multiplier: 2),
-            overviewLabel.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor, constant: 8),
-            overviewLabel.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -16)
-//            overviewLabel.widthAnchor.constraint(equalToConstant: 360)
-        ])
+        voteStarImage.snp.makeConstraints { make in
+            make.top.equalTo(posterImage.snp.bottomMargin)
+        }
 
-        NSLayoutConstraint.activate([
-            voteStarImage.topAnchor.constraint(equalToSystemSpacingBelow: overviewLabel.bottomAnchor, multiplier: 2),
-            voteStarImage.leadingAnchor.constraint(equalTo: overviewLabel.leadingAnchor),
-        ])
-
-        NSLayoutConstraint.activate([
-            voteAvaregeLabel.leadingAnchor.constraint(equalTo: voteStarImage.trailingAnchor, constant: 12),
-            voteAvaregeLabel.centerYAnchor.constraint(equalTo: voteStarImage.centerYAnchor),
-        ])
-
-        NSLayoutConstraint.activate([
-            voteAvaregeTotalLabel.leadingAnchor.constraint(equalTo: voteAvaregeLabel.trailingAnchor, constant: 1),
-            voteAvaregeTotalLabel.centerYAnchor.constraint(equalTo: voteAvaregeLabel.centerYAnchor),
-        ])
-
-        NSLayoutConstraint.activate([
-            addToMyListButton.centerYAnchor.constraint(equalTo: voteStarImage.centerYAnchor),
-            addToMyListButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -32),
-        ])
-        
-        NSLayoutConstraint.activate([
-            addToMyListLabel.topAnchor.constraint(equalToSystemSpacingBelow: addToMyListButton.topAnchor, multiplier: 3),
-            addToMyListLabel.centerXAnchor.constraint(equalTo: addToMyListButton.centerXAnchor)
-        ])
-
-        NSLayoutConstraint.activate([
-            similarMoviesLabel.topAnchor.constraint(equalToSystemSpacingBelow: voteAvaregeTotalLabel.bottomAnchor, multiplier: 2),
-            similarMoviesLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: posterImage.leadingAnchor, multiplier: 2),
-        ])
-
-
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalToSystemSpacingBelow: similarMoviesLabel.bottomAnchor, multiplier: 2),
-            collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.bottomAnchor)
-        ])
     }
     
     func additional() {
@@ -262,7 +199,7 @@ extension MovieViewController: CodableViews{
 }
 
 //  MARK: - Collection Delegate & Data Source
-extension MovieViewController{
+extension NewMovieViewController{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let movies = similarMovies else {return 0}
         return movies.count
@@ -289,10 +226,6 @@ extension MovieViewController{
         
         guard let movie = self.similarMovies else { return }
         
-        
-        
-//        print(movie[indexPath.row].genreIds!)
-        
         let vc = MovieViewController(movieID: movie[indexPath.row].id)
         self.navigationController?.pushViewController(vc, animated: true )
     
@@ -301,16 +234,13 @@ extension MovieViewController{
 
 //  MARK: - Objc Functions
 
-extension MovieViewController{
+extension NewMovieViewController{
     @objc func closeAllPagesAndReturn(){
         navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func addToMyList(){
         
-        // Check if movie is already saved
-        
-        // If not save on database
         
         addToMyListButton.setImage(UIImage(systemName: "checkmark"), for: [])
     }
@@ -318,7 +248,7 @@ extension MovieViewController{
 
 //  MARK: Network api call
 
-extension MovieViewController{
+extension NewMovieViewController{
     func loadMovie() async{
         do{
             let movie = try await self.movieService.fetchMovie(id: movieID)

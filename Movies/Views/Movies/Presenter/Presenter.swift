@@ -29,6 +29,11 @@ class MoviePresenter{
         }
     }
     
+    public func setNewView(movieID: Int) -> UIViewController{
+        let vc = MovieViewController(movieID: movieID)
+        return vc
+    }
+    
     public func setViewDelegate(delegate: MoviesDelegate){
         self.delegate = delegate
     }

@@ -95,6 +95,14 @@ extension TopRatedCell{
         return UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let movie = self.movies else { return }
+
+        print("movieID: \(movie[indexPath.row].id)")
+    }
+    
 }
 
 //  MARK: Network api call

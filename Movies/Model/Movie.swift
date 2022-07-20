@@ -27,12 +27,12 @@ struct Movie: Decodable, Identifiable{
     let runTime: Int?
     let genreIds: [Int]?
     
-    var backdropURL: String {
-        return "https://image.tmdb.org/t/p/original/\(backdropPath ?? "nothing")"
+    var backdropURL: URL? {
+        return URL(string:"https://image.tmdb.org/t/p/original/\(backdropPath ?? "")")
     }
     
-    var posterURL: String {
-        return "https://image.tmdb.org/t/p/w342/\(posterPath ?? "nothing")"
+    var posterURL: URL? {
+        return URL(string: "https://image.tmdb.org/t/p/w342/\(posterPath ?? "")")
     }
 }
 
