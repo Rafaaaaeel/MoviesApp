@@ -10,9 +10,6 @@ import UIKit
 
 
 class MovieViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
-    
-
-//    MVVM Model View ViewModel - VIPER && VIP View Interactor P e Router
 
     var movie: Movie?
     var genres: [Genre]?
